@@ -1,0 +1,455 @@
+
+:root {
+    --main-bg-color: #272721;
+    --main-bg-color-trans: #272721d5;
+    /* --main-text-color: #cbb3f5; */
+    --main-text-color: #42a7d7;
+    
+    --hover-color: #f5f3b3;
+
+    --name-color: #c2e100;
+    --date-color: #42a7d7c9;
+
+    --card-bg-color: #0f293545;
+    --card-hover-bg-color: #3387ad45;
+    --card-hover-outline-color: #42a7d7;
+    
+    --btn-bg-color: #2d739438;
+    --btn-hover-bg-color: #42a7d7;
+    --btn-active-bg-color: #59caff;
+    --btn-active-color: #272721;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 1400px;
+    margin: 1em auto;
+}
+
+.AppFavListContainer>header {
+    margin-bottom: .6em;
+}
+
+body,
+input,
+input:focus,
+textarea,
+textarea:focus {
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+    /* color: #297EA6; */
+}
+
+label {
+    margin-bottom: .5em;
+}
+
+input,
+textarea {
+    height: 100%;
+    padding: .5em;
+    resize: none;
+    border: 1px solid var(--main-text-color);
+}
+
+.AppFavListContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* flex-wrap: wrap; */
+    align-content: center;
+    align-items: stretch;
+}
+
+form.addFavForm {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+    align-items: stretch;
+
+    position: absolute;
+    background: var(--main-bg-color-trans);
+    z-index: 9;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+div.addFavForm {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.addFavForm button,
+.btn {
+    outline: 1px solid var(--main-text-color);
+    color: var(--main-text-color);
+    background-color: var(--btn-bg-color);
+    border: none;
+    padding: 1em;
+    font-size: 1em;
+}
+
+.addFormBtnSet {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn {
+    padding: 0.3em;
+}
+
+.addFavForm button:hover,
+.btn:hover {
+    background-color: var(--btn-hover-bg-color);
+    color: var(--main-bg-color);
+}
+
+.addFavForm button:active,
+.btn:active {
+    background-color: var(--btn-active-bg-color);
+    color: var(--btn-active-color);
+}
+
+.btn.btnDanger {
+    outline: 1px solid #f5b3b3;
+    color: #f5b3b3;
+    background-color: #ff818131;
+}
+
+.btn.btnDanger:hover {
+    background-color: #ff8181;
+    color: #272121;
+}
+
+.btn.btnDanger:active {
+    background-color: #ff3e3e;
+    color: #f8c6c6;
+}
+
+.optionsBtnSet {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.addFavForm .toAddBtn {
+    justify-self: flex-start;
+}
+
+.addFavForm__formSection {
+    border: 1px solid var(--main-text-color);
+    padding: 0.8em;
+    display: flex;
+    flex-direction: column;
+}
+
+.AppFavListCardContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.optionsFormWrapper {
+    position: absolute;
+    /* background: var(--main-bg-color-trans); */
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 9;
+}
+
+.optionsForm {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    
+    outline: 1px solid;
+    margin: 1em;
+    padding: 1em;
+    position: relative;
+    background-color: var(--main-bg-color-trans);
+}
+
+.optionsForm .addFavForm__formSection {
+    max-width: 40em;
+    width: 90%;
+}
+
+.optionsForm .btn {
+    max-height: 3em;
+}
+
+.optionsForm #optionsJSON {
+    height: 15em;
+}
+
+/* Card */
+.favCard {
+    height: 14.5em;
+    width: 11em;
+    outline: 1px solid;
+    margin: .5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    background-color: var(--card-bg-color);
+}
+
+.favCard:hover {
+    outline: 1px solid var(--card-hover-outline-color);
+    background-color: var(--card-hover-bg-color);
+}
+
+.favCard .favCard_rate {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0.3em 0.5em;
+    background-color: var(--btn-bg-color);
+    color: var(--main-text-color);
+}
+
+.favCard .favCard_rate.favCard_rate5 {
+    background-color: #ffeb813b !important;
+    color: #ffea81;
+}
+
+.favCardName {
+    font-size: 0.9em;
+    color: var(--name-color);
+}
+
+.favCardDateAdder {
+    color: var(--date-color);
+}
+
+.favCard .favCardImageWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    height: 8em;
+}
+
+.favCard .favCardImageWrapper:hover {
+    cursor: pointer;
+}
+
+.favCard .favCardImageWrapper img {
+    height: 8em;
+    object-fit: cover;
+    object-position: top;
+}
+
+.favCard .favCardTags {
+    overflow: hidden;
+    height: 1.2em;
+}
+
+.favCard .favCardComment {
+    /* overflow-y: scroll; */
+    overflow: auto;
+    height: 3em;
+}
+
+.favCard footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+    font-size: 0.8em;
+}
+
+.favCardDescription {
+    padding: 0 1em;
+    position: relative;
+}
+
+.favCardDescription div {
+    margin: 0 0 .5em;
+}
+
+.favCardFullContainer {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+}
+
+.favCardFull {
+    outline: 1px solid;
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+    padding: 1em;
+    position: relative;
+    background-color: var(--main-bg-color-trans);
+}
+
+.favCardFull header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1em;
+    position: relative;
+}
+
+.favCardFull_Name {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin: 0.5em 0px;
+    position: relative;
+}
+
+.favCardFull_Name span {
+    color: var(--name-color);
+    font-size: 1.5em;
+    padding: 0.2em;
+}
+
+.favCardFull_Name .btn {
+    width: 100%;
+}
+
+.favCardFull_Name input {
+    margin-bottom: 0.8em;
+}
+
+.favCardFull_Name .optionsBtnSet,
+.favCardFull header .optionsBtnSet,
+.favCardFull_Description .optionsBtnSet {
+    position: static;
+    display: flex;
+    width: 10em;
+    justify-content: flex-end;
+}
+
+.favCardFull_Description .optionsBtnSet .btnEdit {
+    width: 100%
+}
+
+.favCardFull header .optionsBtnSet .btnDelete {
+    width: 100%;
+}
+
+.btnEdit {
+    opacity: 0.5;
+    font-size: 0.8em;
+}
+
+.favCardFull .favCardFull_Description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.favCardFull .favCardFull_Images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    padding: 1em 0;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.favCardFull .favCardFull_Images img {
+    width: 12em;
+}
+
+.favCardFull_imgsContainer {
+    position: relative;
+    min-height: 5em;
+    border: 1px solid;
+}
+
+.favCardFull_imgsContainer .optionsBtnSet.editImages {
+    position: absolute;
+}
+
+.favCardFull_DateAdder,
+.favCardFull_Rating,
+.favCardFull_Tags,
+.favCardFull_Comment {
+    max-width: 40em;
+    padding: 0.3em 0;
+    text-align: center;
+}
+
+.loadingIndicator {
+    display: none;
+    position: absolute;
+    line-height: 0.85em;
+    width: 0.4em;
+    height: 0.4em;
+    font-size: 5em;
+    top: -0.1em;
+    left: 0.8em;
+    color: #ffff00;
+}
+
+.addingImagesAnimation {
+    display: block;
+    transition: 1s;
+    animation: loadingAnimation 3s infinite;
+    animation-timing-function: ease-out;
+}
+
+@keyframes loadingAnimation {
+    from {
+        color: #ffff00;
+        transform: rotate(0deg);
+    }
+    50% {
+        color: var(--main-text-color);
+    }
+    to {
+        color: #ffff00;
+        transform: rotate(359deg);
+    }
+}
+
+.btnClose {
+    font-size: 1.5em;
+    z-index: 10;
+}
+
+.favCardFull_BtnClose {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 1.5em;
+    width: 2em;
+    z-index: 10;
+}
+
+.hideEdit {
+    display: none !important;
+}
+
+.favCardFull_Name .btnEditModeToggle {
+    position: absolute;
+    top: 0.2em;
+    right: -2.5em;
+    width: auto;
+}
