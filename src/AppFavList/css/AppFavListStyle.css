@@ -378,7 +378,7 @@ div.addFavForm {
 }
 
 .favCardFull .favCardFull_Images img {
-    width: 12em;
+    width: 10em;
 }
 
 .favCardFull_imgsContainer {
@@ -434,7 +434,7 @@ div.addFavForm {
 
 .favCardFull_Name .btnEditModeToggle {
     position: absolute;
-    top: 0.2em;
-    right: -2.5em;
+    top: -1.5em;
+    right: 0em;
     width: auto;
 }
