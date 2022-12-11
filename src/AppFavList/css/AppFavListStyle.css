@@ -1,4 +1,6 @@
 
+@import 'bodyBackground.css';
+
 :root {
     --main-bg-color: #272721;
     --main-bg-color-trans: #272721d5;
