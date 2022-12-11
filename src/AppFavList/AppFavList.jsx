@@ -114,8 +114,8 @@ class AppFavList extends Component {
                         key={Math.random()}
                         isRun={this.state.loadingAnimation}
                         style={{
-                            top: '0.9em',
-                            left: '0.8em'
+                            top: '1.7em',
+                            left: '2.5em'
                         }}
                         animationCssName={'loadingAnimation'}
                         text={'sync...'}

@@ -7,7 +7,7 @@ class AppFavListLoadingAnimation extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isRun: this.props.isRun
+            isRun: this.props.test ? true : this.props.isRun
         };
 
         this.styleContainerElem = Object.assign({
