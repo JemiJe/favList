@@ -118,7 +118,7 @@ class SyncFetch {
                             } );
                         } else {
                             // storage.items.unshift( serverItem );
-                            new StorageItem('favListStorage').addItem(serverItem);
+                            new StorageItem(false, 'favListStorage').addItem(serverItem);
                         }
                     }
 
