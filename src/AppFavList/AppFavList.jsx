@@ -60,6 +60,7 @@ class AppFavList extends Component {
 
         if (mode === 'update') {
             await syncInit.getAndUpdateData();
+            this.update();
         }
         else if (mode === 'send') {
             await syncInit.sendData();
