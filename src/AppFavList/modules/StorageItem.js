@@ -48,6 +48,15 @@ class StorageItem {
         return false;
     }
 
+    addItem = itemObj => {
+        let storageObj = favStorage(this.storageName).get();
+        let storageObjItemsArr = storageObj.items;
+
+        storageObjItemsArr.unshift(itemObj);
+        
+        favStorage(this.storageName).set(storageObj);
+    }
+
     deleteItem = () => {
         
         let storageObj = favStorage(this.storageName).get();

@@ -97,12 +97,12 @@ class SyncFetch {
 
             let serverData = dataFromServerObj[0];
 
-            if( this._isNewer(serverData.data.editedDate) ) { //this._isNewer(serverData.data.editedDate)
+            if( this._isNewer(serverData.data.editedDate) ) {
 
                 if(this.isWithoutImgs) {
                     favStorage('favListStorage').backup('SyncFetchBackup');
                     
-                    let storage = favStorage('favListStorage').get();
+                    // let storage = favStorage('favListStorage').get();
 
                     for(let serverItem of serverData.data.items) {
                         
@@ -112,16 +112,17 @@ class SyncFetch {
                             
                             new StorageItem(serverItem.id, 'favListStorage').change( item => {
                                 
-                                let temp = item.imgFav.webImgUrlsArr;
-                                Object.assign(item, serverItem);
+                                let temp = item.imgFav.webImgUrlsArr;                              
+                                item = Object.assign(item, serverItem);
                                 item.imgFav.webImgUrlsArr = temp;
                             } );
                         } else {
-                            storage.items.unshift( serverItem );
+                            // storage.items.unshift( serverItem );
+                            new StorageItem('favListStorage').addItem(serverItem);
                         }
                     }
 
-                    favStorage('favListStorage').set( storage );
+                    // favStorage('favListStorage').set( storage );
 
                 } else {
                     favStorage('favListStorage').backup('SyncFetchBackup');

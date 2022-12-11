@@ -4,6 +4,8 @@ import favStorage from '../modules/storage.js';
 import StorageItem from '../modules/StorageItem.js';
 import googleCustomSeachFetch from '../modules/googleCustomSeachFetch.js';
 
+import AppFavListLoadingAnimation from './AppFavListLoadingAnimation';
+
 // events: 'AppFavListCard.updated'
 class AppFavListCardFullAddImages extends Component {
 
@@ -16,7 +18,8 @@ class AppFavListCardFullAddImages extends Component {
         this.state = {
             _mode: 'initial',
             newImgSrc: '',
-            googleCustomSearchArr: favStorage('favListStorage').get().optionsJSON.googleCustomSearch
+            googleCustomSearchArr: favStorage('favListStorage').get().optionsJSON.googleCustomSearch,
+            loadingAnimation: false
         };
     }
 
@@ -64,13 +67,20 @@ class AppFavListCardFullAddImages extends Component {
             .map( item => item.replace('?', '') )
             .filter( item => item !== '' );
 
-        document.querySelector('.loadingIndicator').classList.add( 'addingImagesAnimation' );
+        // document.querySelector('.loadingIndicator').classList.add( 'addingImagesAnimation' );
+        this.setState({
+            loadingAnimation: true
+        });
+        this.update();
 
         searchInit.getImagesFetch(name)
             .then(data => {
                 this.addNewImageToStorage(data);
 
-                document.querySelector('.loadingIndicator').classList.remove( 'addingImagesAnimation' );
+                // document.querySelector('.loadingIndicator').classList.remove( 'addingImagesAnimation' );
+                this.setState({
+                    loadingAnimation: false
+                })
 
                 this.setState({
                     _mode: 'initial'
@@ -107,39 +117,6 @@ class AppFavListCardFullAddImages extends Component {
         } );
 
         this._event('updated');
-
-        // let storageObj = favStorage('favListStorage').get();
-        // let thisItem = this.props.dataObj;
-
-        // for (let item of storageObj.items) {
-        //     if (item.id === thisItem.id) {
-
-        //         if (addArray) {
-
-        //             for (let imgItem of addArray) {
-        //                 item.imgFav.webImgUrlsArr.unshift(imgItem);
-        //             }
-
-        //             if( item.imgFav.hasOwnProperty( 'prevImagePageCounter' ) ) {   
-        //                 this.imageSearchCounter = item.imgFav.prevImagePageCounter;
-        //             } else {
-        //                 item.imgFav.prevImagePageCounter = this.imageSearchCounter;
-        //             }
-
-        //             this.imageSearchCounter += 10;
-        //             item.imgFav.prevImagePageCounter = this.imageSearchCounter;
-
-        //         } else {
-
-        //             item.imgFav.webImgUrlsArr.unshift({
-        //                 link: this.state.newImgSrc,
-        //                 kind: 'favList user added'
-        //             });
-        //         }
-        //     }
-        // }
-
-        // favStorage('favListStorage').set(storageObj);
     }
 
     _event = (msg) => {
@@ -189,7 +166,15 @@ class AppFavListCardFullAddImages extends Component {
                         onClickCapture={this.seachImageByGoogleCustomSearch}
                     >{'auto search images'}</button>
 
-                    <span className='loadingIndicator'>{'*'}</span>
+                    <AppFavListLoadingAnimation
+                        key={Math.random()}
+                        isRun={this.state.loadingAnimation}
+                        style={{
+                            top: '-0.1em',
+                            left: '0.8em',
+                        }}
+                        animationCssName={'loadingAnimation'}
+                    />
                 </div>
             </>
         );
