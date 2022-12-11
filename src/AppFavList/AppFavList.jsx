@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import './css/bodyBackground.css';
 import './css/AppFavListStyle.css';
 
 import AppFavListAdd from './components/AppFavListAdd';
