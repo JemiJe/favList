@@ -30,6 +30,10 @@ body {
     margin: 1em auto;
 }
 
+.AppFavListContainer > header {
+    position: relative;
+}
+
 .AppFavListContainer>header {
     margin-bottom: .6em;
 }

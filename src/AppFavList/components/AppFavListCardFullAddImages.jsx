@@ -67,7 +67,6 @@ class AppFavListCardFullAddImages extends Component {
             .map( item => item.replace('?', '') )
             .filter( item => item !== '' );
 
-        // document.querySelector('.loadingIndicator').classList.add( 'addingImagesAnimation' );
         this.setState({
             loadingAnimation: true
         });
@@ -76,7 +75,6 @@ class AppFavListCardFullAddImages extends Component {
             .then(data => {
                 this.addNewImageToStorage(data);
 
-                // document.querySelector('.loadingIndicator').classList.remove( 'addingImagesAnimation' );
                 this.setState({
                     loadingAnimation: false
                 })

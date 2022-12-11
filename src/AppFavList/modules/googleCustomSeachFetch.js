@@ -1,25 +1,4 @@
 
-
-
-
-/*
-let searchUrlObj2 = seachUrlInit('https://www.googleapis.com/customsearch/v1', {
-    key: 'AIzaSyAldAvijb1HkWDO6C4KKdMc1Jh9twbC-Iw',
-    cx: 'a39f22ac79254422d',
-    searchType: 'image',
-    start: 1
-});
-
-document.querySelector('#getImgs').addEventListener( 'click', () => {
-
-    setImgUrlsToJMArr(JMArr, searchUrlObj2)
-        .then( data => {
-            localStorage.setItem('JMArrWithImgUrls-' + new Date().toDateString(), JSON.stringify(data));
-            console.log(data);
-        });
-} );
-*/
-
 export class googleCustomSeachFetch {
 
     constructor(searchParametersObj) {

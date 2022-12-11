@@ -4,6 +4,7 @@ import './css/AppFavListStyle.css';
 
 import AppFavListAdd from './components/AppFavListAdd';
 import AppFavListCard from './components/AppFavListCard';
+import AppFavListLoadingAnimation from './components/AppFavListLoadingAnimation';
 
 import favStorage from './modules/storage.js';
 import SyncFetch from './modules/SyncFetch.js';
@@ -43,7 +44,8 @@ class AppFavList extends Component {
         }
 
         this.state = {
-            update: false
+            update: false,
+            loadingAnimation: false
         };
     }
 
@@ -59,12 +61,20 @@ class AppFavList extends Component {
         let syncInit = new SyncFetch(syncOptions);
 
         if (mode === 'update') {
-            await syncInit.getAndUpdateData();
+            this.syncAnimation(true);
+            await syncInit.getAndUpdateData()
+                .then( () => this.syncAnimation(false) );
             this.update();
         }
         else if (mode === 'send') {
             await syncInit.sendData();
         }
+    }
+
+    syncAnimation = isRun => {
+        this.setState({
+            loadingAnimation: isRun ? true : false
+        });
     }
 
     syncSend = () => {
@@ -83,10 +93,6 @@ class AppFavList extends Component {
 
         let itemsComponentsArr = dataItemsArr.map((itemData) => {
 
-            // new StorageItem(itemData.id, 'favListStorage').change( item => {
-            //     delete item.optionsJSON;
-            // } );
-
             return (<AppFavListCard key={Math.random()} id={itemData.id} updateParentFunc={this.update} />);
         });
 
@@ -95,7 +101,6 @@ class AppFavList extends Component {
 
     update = () => {
         this.setState({});
-        // this._sync('send');
     }
 
     render() {
@@ -104,6 +109,17 @@ class AppFavList extends Component {
             <div className='AppFavListContainer'>
                 <header>
                     <AppFavListAdd callbackFunc={this.update} />
+
+                    <AppFavListLoadingAnimation
+                        key={Math.random()}
+                        isRun={this.state.loadingAnimation}
+                        style={{
+                            top: '0.9em',
+                            left: '0.8em'
+                        }}
+                        animationCssName={'loadingAnimation'}
+                        text={'sync...'}
+                    />
                 </header>
                 <main>
                     <div className='AppFavListCardContainer'>
