@@ -11,6 +11,7 @@ class SyncFetch {
         this.options = optionsObj;
         this.isPost = this.options.isPost;
         this.isWithoutImgs = this.options.isWithoutImgs;
+        this.isAlredyExists = this.options.isAlredyExists;
     }
 
     async sendData(forcePOST) {
@@ -73,6 +74,8 @@ class SyncFetch {
     async getAndUpdateData() {
 
         let currentData = favStorage('favListStorage').get();
+
+        if(this.isAlredyExists) currentData.isSyncConnected = true;
 
         if (!currentData.isSyncConnected) {
             try {

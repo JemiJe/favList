@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import './css/bodyBackground.css';
 import './css/AppFavListStyle.css';
 
 import AppFavListAdd from './components/AppFavListAdd';
@@ -21,13 +20,16 @@ class AppFavList extends Component {
                 userId: +Math.random().toString().slice(2),
                 editedDate: new Date().toUTCString(),
                 items: [],
-
+                
+                isSyncConnected: true,
+                
                 optionsJSON: {
                     googleCustomSearch: [
                         { apiKey: '', cx: '' }
                     ],
                     synchServers: [
                         {
+                            isAlredyExists: true,
                             isPost: false,
                             isWithoutImgs: true,
                             deleteUrl: '',
