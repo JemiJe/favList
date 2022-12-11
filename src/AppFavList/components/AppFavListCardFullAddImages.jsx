@@ -71,7 +71,6 @@ class AppFavListCardFullAddImages extends Component {
         this.setState({
             loadingAnimation: true
         });
-        this.update();
 
         searchInit.getImagesFetch(name)
             .then(data => {
