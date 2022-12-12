@@ -132,7 +132,7 @@ class AppFavList extends Component {
                             top: '1.7em',
                             left: '2.5em'
                         }}
-                        animationCssName={'loadingAnimation'}
+                        animationCssNames={['loadingAnimation', 'loadingAnimationText']}
                         text={'sync...'}
                     />
                 </header>

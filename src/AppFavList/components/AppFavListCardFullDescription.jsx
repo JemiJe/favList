@@ -15,6 +15,7 @@ class AppFavListCardFullDescription extends Component {
             _isEdit: false,
             dateAdded: this.dataObj.dateAdded,
             tags: this.dataObj.tags,
+            folder: this.dataObj.folder,
             rating: this.dataObj.rating,
             comment: this.dataObj.comment
         };
@@ -45,22 +46,9 @@ class AppFavListCardFullDescription extends Component {
 
     handleSubmit = () => {
 
-        // let storageObj = favStorage('favListStorage').get();
-        // let thisItem = this.props.dataObj;
-
-        // for (let item of storageObj.items) {
-        //     if (item.id === thisItem.id) {
-        //         item.rating = +this.state.rating;
-        //         item.tags = this._handleTags(this.state.tags);
-        //         item.comment = this.state.comment;
-        //         item._editDate = new Date().toString();
-        //     }
-        // }
-
-        // favStorage('favListStorage').set(storageObj);
-
         new StorageItem(this.props.id, 'favListStorage').change(item => {
             item.rating = +this.state.rating;
+            item.folder = this.state.folder;
             item.tags = this._handleTags(this.state.tags);
             item.comment = this.state.comment;
             item._editDate = new Date().toString();
@@ -91,7 +79,7 @@ class AppFavListCardFullDescription extends Component {
         if (this.state._isEdit) {
             return (
                 <form
-                    className='favCardFull_Name'
+                    className='favCardFull_DescriptionForm'
                     onSubmit={this.handleSubmit}
                 >
                     <div>
@@ -104,6 +92,18 @@ class AppFavListCardFullDescription extends Component {
                             name='rating'
                             defaultValue={this.state.rating}
                             onChange={e => this.handleChange(e)}
+                            placeholder={'rating'}
+                        />
+                    </div>
+
+                    <div>
+                        <input
+                            type="text"
+                            id='folder'
+                            name='folder'
+                            defaultValue={this.state.folder}
+                            placeholder={'folder'}
+                            onChange={e => this.handleChange(e)}
                         />
                     </div>
 
@@ -113,6 +113,7 @@ class AppFavListCardFullDescription extends Component {
                             id='tags'
                             name='tags'
                             defaultValue={this.state.tags}
+                            placeholder={'tags'}
                             onChange={e => this.handleChange(e)}
                         />
                     </div>
@@ -123,6 +124,7 @@ class AppFavListCardFullDescription extends Component {
                             id='comment'
                             name='comment'
                             defaultValue={this.state.comment}
+                            placeholder={'comment'}
                             onChange={e => this.handleChange(e)}
                         />
                     </div>
@@ -146,6 +148,10 @@ class AppFavListCardFullDescription extends Component {
                 <div className='favCardFull_Rating'>
                     {'rating:'}<br/>
                     {`${this.state.rating}`}
+                </div>
+                <div className='favCardFull_Folder'>
+                    {'folder:'}<br/>
+                    {`${this.state.folder}`}
                 </div>
                 <div className='favCardFull_Tags'>
                     {'tags:'}<br/>

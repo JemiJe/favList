@@ -17,6 +17,7 @@ class AppFavListAdd extends Component {
             nameEng: '',
             nameAlt: '',
             comment: '',
+            folder: '',
             tags: '',
             rating: '',
             _display: 'short',
@@ -215,6 +216,16 @@ class AppFavListAdd extends Component {
                             type="text"
                             id='comment'
                             name='comment'
+                            onChange={e => this.handleChange(e)}
+                        />
+                    </div>
+                    
+                    <div className='addFavForm__formSection'>
+                        <label htmlFor="folder">{`Folder`}</label>
+                        <input
+                            type="text"
+                            id='folder'
+                            name='folder'
                             onChange={e => this.handleChange(e)}
                         />
                     </div>

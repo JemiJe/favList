@@ -50,6 +50,7 @@ textarea {
     padding: .5em;
     resize: none;
     border: 1px solid var(--main-text-color);
+    box-sizing: border-box;
 }
 
 .AppFavListContainer {
@@ -348,6 +349,28 @@ div.addFavForm {
     width: 100%
 }
 
+.favCardFull_DescriptionForm {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 15em;
+}
+.favCardFull_DescriptionForm input,
+.favCardFull_DescriptionForm textarea {
+    width: 100%;
+}
+.favCardFull_DescriptionForm textarea {
+    height: 6em;
+}
+.favCardFull_DescriptionForm .optionsBtnSet {
+    width: 100%;
+    justify-content: center;
+}
+
+.favCardFull_DescriptionForm .optionsBtnSet .btn {
+    width: 100%;
+}
+
 .favCardFull header .optionsBtnSet .btnDelete {
     width: 100%;
 }
@@ -407,6 +430,18 @@ div.addFavForm {
     to {
         color: #ffff00;
         transform: rotate(359deg);
+    }
+}
+
+@keyframes loadingAnimationText {
+    from {
+        color: #ffff00;
+    }
+    50% {
+        color: var(--main-text-color);
+    }
+    to {
+        color: #ffff00;
     }
 }
 

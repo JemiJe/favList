@@ -17,28 +17,43 @@ class AppFavListLoadingAnimation extends Component {
             color: '#ffff00',
         }, this.props.style);
 
-        this.styleAnimElem = {
+        this.styleIndicator = {
             lineHeight: '0.85em',
             width: '0.4em',
             height: '0.4em',
             fontSize: '5em',
         };
 
+        this.styleText = {
+            padding: '0 0.5em'
+        };
+
         this.animationStyle = {
             display: 'block',
             transition: '1s',
-            animation: `${this.props.animationCssName} 3s infinite`,
+            animation: `${this.props.animationCssNames} 3s infinite`,
             animationTimingFunction: 'ease-out',
         };
 
     }
 
+    applyAnimation = animationName => {
+        return {
+            display: 'block',
+            transition: '1s',
+            animation: `${animationName} 3s infinite`,
+            animationTimingFunction: 'ease-out',
+        }
+    }
+
     render() {
 
-        let style = this.styleAnimElem;
+        let styleIndicator = this.styleIndicator;
+        let styleText = this.styleText;
 
         if(this.state.isRun) {
-            style = Object.assign(style, this.animationStyle);
+            styleIndicator = Object.assign( styleIndicator, this.applyAnimation(this.props.animationCssNames[0]) );
+            styleText = Object.assign( styleText, this.applyAnimation(this.props.animationCssNames[1]) );
             this.styleContainerElem.display = 'flex';
         }
 
@@ -46,11 +61,13 @@ class AppFavListLoadingAnimation extends Component {
             <div style={this.styleContainerElem}>
                 <span 
                     className='loadingIndicator'
-                    style={ style }
+                    style={ styleIndicator }
                 >
                     {'*'}
                 </span>
-                <span style={{ padding: '0 0.5em' }}>
+                <span 
+                    style={ styleText }
+                >
                     {this.props.text ? this.props.text : ''}
                 </span>
             </div>

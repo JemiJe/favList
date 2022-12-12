@@ -20,6 +20,14 @@ class AppFavListCardFull extends Component {
         };
     }
 
+    componentDidMount() {
+        document.addEventListener('AppFavListCard.updated', this.update);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('AppFavListCard.updated', this.update);
+    }
+
     changeCardImgInStorage = (event) => {
 
         new StorageItem(this.state.dataObj.id, 'favListStorage').change( item => {
@@ -56,10 +64,8 @@ class AppFavListCardFull extends Component {
         });
     }
 
-    updateCallback = () => {
-        this.setState({
-            _update: true
-        })
+    update = () => {
+        this.setState({});
     }
 
     _event = (msg) => {
@@ -104,7 +110,6 @@ class AppFavListCardFull extends Component {
                         
                         <AppFavListCardFullAddImages 
                             id={ dataObj.id }
-                            callbackFunc={ this.updateCallback }
                         />
                         <div className='favCardFull_Images'>
                             {this.renderImgs()}

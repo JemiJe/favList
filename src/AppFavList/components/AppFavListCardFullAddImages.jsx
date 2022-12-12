@@ -48,7 +48,7 @@ class AppFavListCardFullAddImages extends Component {
         });
     }
 
-    seachImageByGoogleCustomSearch = e => {
+    seachImageByGoogleCustomSearch = () => {
 
         if( this.imageSearchCounter > 91 ) {
             this.imageSearchCounter = 0;
@@ -167,10 +167,11 @@ class AppFavListCardFullAddImages extends Component {
                         key={Math.random()}
                         isRun={this.state.loadingAnimation}
                         style={{
-                            top: '-0.1em',
-                            left: '0.8em',
+                            top: '-0.6em',
+                            left: '1em',
                         }}
-                        animationCssName={'loadingAnimation'}
+                        animationCssNames={['loadingAnimation', 'loadingAnimationText']}
+                        text={'searching images...'}
                     />
                 </div>
             </>
