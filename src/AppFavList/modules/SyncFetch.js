@@ -100,9 +100,15 @@ class SyncFetch {
                     favStorage('favListStorage').backup('SyncFetchBackup');
                     this._updateStorageItems(serverData.data.items);
 
+                    if( serverData.data.folders ) {
+                        let storage = favStorage('favListStorage').get();
+                        storage.folders = serverData.data.folders;
+                        favStorage('favListStorage').set( storage );
+                    }
+
                 } else {
-                    favStorage('favListStorage').backup('SyncFetchBackup');
-                    favStorage('favListStorage').set( serverData.data );
+                    // favStorage('favListStorage').backup('SyncFetchBackup');
+                    // favStorage('favListStorage').set( serverData.data );
                 }
 
                 this._event('updated');
