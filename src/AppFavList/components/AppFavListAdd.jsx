@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import favStorage from '../modules/storage.js'
+import favStorage from '../modules/storage.js';
+import formateData from '../modules/formateData.js';
 
 // events: 'AppFavListAdd.itemAdded' 'AppFavListAdd.backupRestored'
 
@@ -23,15 +24,6 @@ class AppFavListAdd extends Component {
             _display: 'short',
             optionsJSON: JSON.stringify(favStorage('favListStorage').get().optionsJSON, null, 2)
         };
-    }
-
-    _handleTags(tagsStr) {
-
-        if (!tagsStr.includes(',')) return tagsStr;
-
-        return tagsStr.split(',')
-            .map(i => i.trim())
-            .filter(i => i !== '');
     }
 
     handleChange(e) {
@@ -77,13 +69,14 @@ class AppFavListAdd extends Component {
 
             const additionalInfoObj = {
                 rating: +this.state.rating,
-                tags: this._handleTags(this.state.tags),
+                tags: formateData().handleTags(this.state.tags),
                 dateAdded: new Date().toString(),
                 id: +Math.random().toString().slice(2)
             };
 
             let storage = favStorage('favListStorage').get();
             storage.items.unshift(Object.assign(this.state, additionalInfoObj));
+            storage.folders = formateData().addFolder( storage.folders, this.state.folder );
             favStorage('favListStorage').set(storage);
 
             this._event('itemAdded');

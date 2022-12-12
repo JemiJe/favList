@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 // import favStorage from '../modules/storage.js';
 import StorageItem from '../modules/StorageItem.js';
+import formateData from '../modules/formateData.js';
+import favStorage from '../modules/storage.js';
 
 // events: 'AppFavListCard.updated'
 class AppFavListCardFullDescription extends Component {
@@ -35,30 +37,25 @@ class AppFavListCardFullDescription extends Component {
         });
     }
 
-    _handleTags(tagsStr) {
-
-        if (!tagsStr.includes(',')) return tagsStr;
-
-        return tagsStr.split(',')
-            .map(i => i.trim())
-            .filter(i => i !== '');
-    }
-
     handleSubmit = () => {
 
         new StorageItem(this.props.id, 'favListStorage').change(item => {
             item.rating = +this.state.rating;
             item.folder = this.state.folder;
-            item.tags = this._handleTags(this.state.tags);
+            item.tags = formateData().handleTags(this.state.tags);
             item.comment = this.state.comment;
             item._editDate = new Date().toString();
         });
+
+        let storage = favStorage('favListStorage').get();
+        storage.folders = formateData().addFolder(storage.folders, this.state.folder);
+        favStorage('favListStorage').set(storage);
 
         this._event('updated');
 
         this.setState({
             _isEdit: false,
-            tags: this._handleTags(this.state.tags)
+            tags: formateData().handleTags(this.state.tags)
         })
     }
 
