@@ -62,9 +62,20 @@ class AppFavList extends Component {
 
         if (mode === 'update') {
             this.syncAnimation(true);
+            
             await syncInit.getAndUpdateData()
-                .then( () => this.syncAnimation(false) );
-            this.update();
+                .then( () => {
+                    this.syncAnimation(false);
+
+                    // mark than we already know server, connected and no need to POST for first connections in SyncFetch
+                    let storage = favStorage('favListStorage').get();
+                    let alreadyExists = storage.optionsJSON.synchServers[serverIndexInOptions].isAlredyExists;
+                    if( storage.isSyncConnected && !alreadyExists) {
+                        storage.optionsJSON.synchServers[serverIndexInOptions].isAlredyExists = true;
+                    }
+                } );
+                       
+                this.update();
         }
         else if (mode === 'send') {
             await syncInit.sendData();
@@ -85,7 +96,10 @@ class AppFavList extends Component {
 
         this._sync('update');
         document.addEventListener('AppFavListAdd.itemAdded', this.syncSend);
+        
         document.addEventListener('AppFavListAdd.itemAdded', this.update);
+        document.addEventListener('AppFavListAdd.backupRestored', this.update);
+        
         document.addEventListener('AppFavListCard.updated', this.syncSend);
     }
 

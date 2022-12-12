@@ -48,12 +48,12 @@ const favStorage = storageName => {
             document.dispatchEvent(event);
         },
 
-        restore(backupStorageName, newStorage) { // all arguments are OPTIONAL
+        restore(backupStorageName) {
             
             let keys = Object.keys(localStorage);
 
             let keysArr = [...keys]
-                .filter( item => item.includes('favStorage-backup') )
+                .filter( item => item.includes( backupStorageName ) )
                 .sort( item => {
                     let date = new Date(item.split(' | ')[2]);
                     return new Date() - date;
@@ -63,10 +63,7 @@ const favStorage = storageName => {
                 console.log( '%cstorage.js%c there is no any backups, create .backup() first', consoleStyle1, 'color: coral' );
             }
 
-            let newStorageName = newStorage ? newStorage : storageName;
-            let backupName = backupStorageName ? backupStorageName : keysArr[0];
-
-            localStorage.setItem( newStorageName, localStorage.getItem(backupName) );
+            localStorage.setItem( storageName, localStorage.getItem(keysArr[0]) );
             // console.log( `%cstorage.js%c storage has been restored from '${backupName}' to '${newStorageName}'`, consoleStyle1, 'color: lime' );
 
             let event = new Event('storage.js.restored'); 

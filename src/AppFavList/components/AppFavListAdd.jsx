@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import favStorage from '../modules/storage.js'
 
-// events: 'AppFavListAdd.itemAdded'
+// events: 'AppFavListAdd.itemAdded' 'AppFavListAdd.backupRestored'
 
 class AppFavListAdd extends Component {
 
@@ -93,6 +93,12 @@ class AppFavListAdd extends Component {
 
     }
 
+    restoreBackup = () => {
+
+        favStorage('favListStorage').restore('userBackup');
+        this._event('backupRestored');
+    }
+
     _event(type) {
         let event = new Event('AppFavListAdd.' + type);
         document.dispatchEvent(event);
@@ -128,10 +134,17 @@ class AppFavListAdd extends Component {
                         className='optionsForm'
                         onSubmit={this.handleSubmit}
                     >
-                        <button
-                            className='btn'
-                            onClickCapture={() => favStorage('favListStorage').backup('userBackup')}
-                        >{'backup localStorage'}</button>
+                        <div className='addFavForm__formSection' style={{flexDirection: 'row'}}>  
+                            <button
+                                className='btn'
+                                onClickCapture={ () => favStorage('favListStorage').backup('userBackup') }
+                            >{'backup localStorage'}</button>
+                            
+                            <button
+                                className='btn'
+                                onClickCapture={ this.restoreBackup }
+                            >{'restore lates backup'}</button>
+                        </div>
 
                         <div className='addFavForm__formSection'>
                             <label htmlFor="optionsJSON">{`JSON options`}</label>
@@ -147,8 +160,8 @@ class AppFavListAdd extends Component {
                                 type="submit"
                                 className='submitBtn btn'
                             >{'Apply'}</button>
-                            
-                            <button 
+
+                            <button
                                 className='favCardFull_BtnClose btn'
                                 onClickCapture={this.close}
                             >X</button>

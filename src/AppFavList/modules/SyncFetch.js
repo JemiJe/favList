@@ -18,7 +18,7 @@ class SyncFetch {
 
         let currentData = favStorage('favListStorage').get();
         
-        if(forcePOST || !currentData.isSyncConnected) this.isPost = true;
+        if(forcePOST /*|| !currentData.isSyncConnected*/) this.isPost = true; // if doesn't exist - first POST then PUT
         
         let { putUrl, postUrl } = this.options;
         
@@ -30,10 +30,6 @@ class SyncFetch {
         }
 
         try {
-
-            // let bodyData = this.isPost 
-            //     ? { data: currentData } 
-            //     : { id: 0, data: currentData };
 
             let bodyData = { data: currentData };
 

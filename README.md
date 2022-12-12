@@ -1,0 +1,1 @@
+for first connection to server, set isAlredyExists = false<br>
