@@ -85,6 +85,7 @@ class AppFavList extends Component {
 
         this._sync('update');
         document.addEventListener('AppFavListAdd.itemAdded', this.syncSend);
+        document.addEventListener('AppFavListAdd.itemAdded', this.update);
         document.addEventListener('AppFavListCard.updated', this.syncSend);
     }
 

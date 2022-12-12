@@ -7,7 +7,6 @@ import ReactDOM from 'react-dom/client';
 
 // ---AppFavList---
 import './AppFavList/css/AppFavListStyle.css';
-import './AppFavList/css/bodyBackground.css';
 import AppFavList from './AppFavList/AppFavList';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

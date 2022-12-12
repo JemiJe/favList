@@ -100,29 +100,9 @@ class SyncFetch {
             if( this._isNewer(serverData.data.editedDate) ) {
 
                 if(this.isWithoutImgs) {
-                    favStorage('favListStorage').backup('SyncFetchBackup');
                     
-                    // let storage = favStorage('favListStorage').get();
-
-                    for(let serverItem of serverData.data.items) {
-                        
-                        let storageHasId = new StorageItem(serverItem.id, 'favListStorage').hasId();
-                        
-                        if( storageHasId ) {
-                            
-                            new StorageItem(serverItem.id, 'favListStorage').change( item => {
-                                
-                                let temp = item.imgFav.webImgUrlsArr;                              
-                                item = Object.assign(item, serverItem);
-                                item.imgFav.webImgUrlsArr = temp;
-                            } );
-                        } else {
-                            // storage.items.unshift( serverItem );
-                            new StorageItem(false, 'favListStorage').addItem(serverItem);
-                        }
-                    }
-
-                    // favStorage('favListStorage').set( storage );
+                    favStorage('favListStorage').backup('SyncFetchBackup');
+                    this._updateStorageItems(serverData.data.items);
 
                 } else {
                     favStorage('favListStorage').backup('SyncFetchBackup');
@@ -136,6 +116,33 @@ class SyncFetch {
                 return false;
             }
         }
+    }
+
+    _updateStorageItems(serverItems) {
+        
+        let oldItemsArr = [];
+                    
+        for(let serverItem of serverItems) {
+            
+            let storageHasId = new StorageItem(serverItem.id, 'favListStorage').hasId();
+            
+            if( storageHasId ) {
+
+                oldItemsArr.push(serverItem.id);
+                
+                new StorageItem(serverItem.id, 'favListStorage').change( item => {
+                    
+                    let temp = item.imgFav.webImgUrlsArr;                              
+                    item = Object.assign(item, serverItem);
+                    item.imgFav.webImgUrlsArr = temp;
+                } );
+
+            } else { // new items
+                new StorageItem(false, 'favListStorage').addItem(serverItem);
+            }
+        }
+
+        this._deleteExtraItems(oldItemsArr);
     }
 
     _isNewer(dataFromServerEditedDate) {
@@ -160,6 +167,17 @@ class SyncFetch {
         }
 
         return newArr;
+    }
+
+    _deleteExtraItems(idsWereSendFromServerArr) {
+
+        let storageItems = favStorage('favListStorage').get().items;
+
+        for( let storageItem of storageItems ) {
+            if( !idsWereSendFromServerArr.includes(storageItem.id) ) {
+                new StorageItem(storageItem.id, 'favListStorage').deleteItem();
+            }
+        }
     }
 }
 
