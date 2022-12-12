@@ -134,6 +134,7 @@ class SyncFetch {
                 } );
 
             } else { // new items
+                oldItemsArr.push(serverItem.id);
                 new StorageItem(false, 'favListStorage').addItem(serverItem);
             }
         }

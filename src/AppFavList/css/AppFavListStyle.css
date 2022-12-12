@@ -24,6 +24,8 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     max-width: 1400px;
     margin: 1em auto;
+    /* background-image: url("/public/img/shattered-island.gif"); */
+    /* background-repeat: repeat; */
 }
 
 .AppFavListContainer>header {
