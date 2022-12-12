@@ -21,6 +21,7 @@ class AppFavList extends Component {
                 userId: +Math.random().toString().slice(2),
                 editedDate: new Date().toUTCString(),
                 items: [],
+                folders: [],
                 
                 isSyncConnected: true,
                 
