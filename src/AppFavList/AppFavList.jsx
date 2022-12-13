@@ -72,7 +72,10 @@ class AppFavList extends Component {
                     let storage = favStorage('favListStorage').get();
                     let alreadyExists = storage.optionsJSON.synchServers[serverIndexInOptions].isAlredyExists;
                     if( storage.isSyncConnected && !alreadyExists) {
-                        storage.optionsJSON.synchServers[serverIndexInOptions].isAlredyExists = true;
+
+                        favStorage('favListStorage').change( storageObj => {
+                            storageObj.optionsJSON.synchServers[serverIndexInOptions].isAlredyExists = true;
+                        } );
                     }
                 } );
                        

@@ -35,18 +35,6 @@ class AppFavListCardFullName extends Component {
 
     handleSubmit = () => {
 
-        // let storageObj = favStorage('favListStorage').get();
-        // let thisItem = this.state.dataObj;
-
-        // for (let item of storageObj.items) {
-        //     if (item.id === thisItem.id) {
-        //         item.nameEng = this.state.nameEng;
-        //         item.nameAlt = this.state.nameAlt;
-        //     }
-        // }
-
-        // favStorage('favListStorage').set(storageObj);
-
         new StorageItem(this.props.id, 'favListStorage').change( item => {
             item.nameEng = this.state.nameEng;
             item.nameAlt = this.state.nameAlt;

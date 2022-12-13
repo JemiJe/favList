@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import favStorage from '../modules/storage.js';
+// import favStorage from '../modules/storage.js';
+import StorageItem from '../modules/StorageItem.js';
 
 // events: 'AppFavListCard.updated'
 class AppFavListCardFullImage extends Component {
@@ -13,42 +14,28 @@ class AppFavListCardFullImage extends Component {
     }
 
     changeCardImgInStorage = (event) => {
+
+        new StorageItem(this.props.id, 'favListStorage').change( item => {
+            item.imgFav.webImgUrl = event.target.parentElement.parentElement.querySelector('img').src;
+        } );
         
-        let storageObj = favStorage('favListStorage').get();
-        
-        let thisItemId = this.props.id;
-        
-        for(let item of storageObj.items) {
-            
-            if ( item.id === thisItemId ) {
-                item.imgFav.webImgUrl = event.target.parentElement.parentElement.querySelector('img').src;
-            }
-        }
-        
-        favStorage('favListStorage').set(storageObj);
         this._event('updated');
     }
 
     deleteImgInStorage = (event) => {
         
-        let storageObj = favStorage('favListStorage').get();
-        let thisItemId = this.props.id;
         let thisImgSrc = event.target.parentElement.parentElement.querySelector('img').src;
-        
-        for(let item of storageObj.items) {
-            
-            if ( item.id === thisItemId ) {
-                let imgsArr = item.imgFav.webImgUrlsArr;
 
-                for( let i = 0; i < imgsArr.length; i++ ) {
-                    const arrItemSrc = imgsArr[i].link;
-                    
-                    if( thisImgSrc === arrItemSrc) imgsArr.splice( i, 1 );
-                }
+        new StorageItem(this.props.id, 'favListStorage').change( item => {
+            let imgsArr = item.imgFav.webImgUrlsArr;
+
+            for( let i = 0; i < imgsArr.length; i++ ) {
+                const arrItemSrc = imgsArr[i].link;
+                
+                if( thisImgSrc === arrItemSrc) imgsArr.splice( i, 1 );
             }
-        }
+        } );
         
-        favStorage('favListStorage').set(storageObj);
         this._event('updated');
 
         this.setState({

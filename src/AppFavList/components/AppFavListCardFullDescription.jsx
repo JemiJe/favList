@@ -47,9 +47,9 @@ class AppFavListCardFullDescription extends Component {
             item._editDate = new Date().toString();
         });
 
-        let storage = favStorage('favListStorage').get();
-        storage.folders = formateData().addFolder(storage.folders, this.state.folder);
-        favStorage('favListStorage').set(storage);
+        favStorage('favListStorage').change( storage => {
+            storage.folders = formateData().addFolder(storage.folders, this.state.folder);
+        } );
 
         this._event('updated');
 

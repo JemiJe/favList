@@ -1,5 +1,6 @@
 
 // events: 'storage.js.updated', 'storage.js.backup', 'storage.js.restored'
+// also return event.storageName
 
 const favStorage = storageName => {
     
@@ -9,8 +10,7 @@ const favStorage = storageName => {
 
     return {
 
-        get() {
-           
+        get() {         
             return JSON.parse(localStorage.getItem(storageName));
         },
 
@@ -20,7 +20,22 @@ const favStorage = storageName => {
             
             localStorage.setItem( storageName, JSON.stringify(newStorageObj) );
             
-            let event = new Event('storage.js.updated'); 
+            let event = new Event('storage.js.updated');
+            event.storageName = storageName;
+            document.dispatchEvent(event);
+        },
+
+        change(func) {
+
+            let storageObj = JSON.parse( localStorage.getItem(storageName) );
+            
+            func( storageObj );
+
+            storageObj.editedDate = new Date().toUTCString();
+            localStorage.setItem( storageName, JSON.stringify(storageObj) );
+            
+            let event = new Event('storage.js.updated');
+            event.storageName = storageName;
             document.dispatchEvent(event);
         },
 
@@ -42,9 +57,9 @@ const favStorage = storageName => {
             }
             
             localStorage.setItem( backupName, JSON.stringify(prevStorageObj) );
-            // console.log( `%cstorage.js%c backup has been created: '${backupName}'`, consoleStyle1, 'color: lime' );
 
-            let event = new Event('storage.js.backup'); 
+            let event = new Event('storage.js.backup');
+            event.storageName = storageName;
             document.dispatchEvent(event);
         },
 
@@ -64,9 +79,9 @@ const favStorage = storageName => {
             }
 
             localStorage.setItem( storageName, localStorage.getItem(keysArr[0]) );
-            // console.log( `%cstorage.js%c storage has been restored from '${backupName}' to '${newStorageName}'`, consoleStyle1, 'color: lime' );
 
-            let event = new Event('storage.js.restored'); 
+            let event = new Event('storage.js.restored');
+            event.storageName = storageName; 
             document.dispatchEvent(event);
         }
     };

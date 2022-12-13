@@ -42,20 +42,21 @@ class SyncFetch {
             });
             
             if (resp.ok) {
-                
-                let currentData = favStorage('favListStorage').get();
-                if (!currentData.isSyncConnected) {
-                    currentData.isSyncConnected = true;
-                    favStorage('favListStorage').set(currentData);
-                }
+
+                favStorage('favListStorage').change( storage => {
+                    if (!storage.isSyncConnected) {
+                        storage.isSyncConnected = true;
+                    }
+                } );
                 
                 this._event('wasSent');
             } else {
-                let currentData = favStorage('favListStorage').get();
-                if (!currentData.isSyncConnected) {
-                    currentData.isSyncConnected = false;
-                    favStorage('favListStorage').set(currentData);
-                }
+                
+                // favStorage('favListStorage').change( storage => {
+                //     if (storage.isSyncConnected) {
+                //         storage.isSyncConnected = false;
+                //     }
+                // } );
             }
 
         } catch (error) {
@@ -101,9 +102,10 @@ class SyncFetch {
                     this._updateStorageItems(serverData.data.items);
 
                     if( serverData.data.folders ) {
-                        let storage = favStorage('favListStorage').get();
-                        storage.folders = serverData.data.folders;
-                        favStorage('favListStorage').set( storage );
+
+                        favStorage('favListStorage').change( storage => {
+                            storage.folders = serverData.data.folders;
+                        });
                     }
 
                 } else {
