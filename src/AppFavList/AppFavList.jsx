@@ -121,6 +121,15 @@ class AppFavList extends Component {
         
         const storage =  favStorage('favListStorage').get();
 
+        if( !storage.optionsUI ) {
+
+            storage.optionsUI = {
+                currentFolder: '',
+                displayMode: "default",
+                sort: "dateUp"
+            };
+        }
+
         let items = storage.items;
         const options = storage.optionsUI;
 
