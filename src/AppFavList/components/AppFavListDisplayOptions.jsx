@@ -30,11 +30,20 @@ class AppFavListDisplayOptions extends Component {
             });
         }
 
-        const storage = favStorage('favListStorage').get().optionsUI;
+        const storage = favStorage('favListStorage').get();
+
+        if( !storage.optionsUI ) {
+
+            storage.optionsUI = {
+                currentFolder: '',
+                displayMode: "default",
+                sort: "dateUp"
+            };
+        }
 
         if( 'default folders'.includes(e.target.name) ) {
             
-            if( e.target.name === storage.displayMode ) return;
+            if( e.target.name === storage.optionsUI.displayMode ) return;
             
             this.setState({
                 displayMode: e.target.name
