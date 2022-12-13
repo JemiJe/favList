@@ -75,7 +75,7 @@ class AppFavListAdd extends Component {
             };
 
             let storage = favStorage('favListStorage').get();
-            storage.items.unshift(Object.assign(this.state, additionalInfoObj));
+            storage.items.push(Object.assign(this.state, additionalInfoObj));
             storage.folders = formateData().addFolder( storage.folders, this.state.folder );
             favStorage('favListStorage').set(storage);
 

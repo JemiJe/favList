@@ -4,6 +4,7 @@
     --main-bg-color-trans: #272721d5;
     /* --main-text-color: #cbb3f5; */
     --main-text-color: #42a7d7;
+    --main-text-color-veryFade: #42a7d712;
     
     --hover-color: #f5f3b3;
 
@@ -98,6 +99,7 @@ div.addFavForm {
     border: none;
     padding: 1em;
     font-size: 1em;
+    cursor: pointer;
 }
 
 .addFormBtnSet {
@@ -202,7 +204,8 @@ div.addFavForm {
 }
 
 /* Card */
-.favCard {
+.favCard,
+.favFolder {
     height: 14.5em;
     width: 11em;
     outline: 1px solid;
@@ -214,7 +217,8 @@ div.addFavForm {
     background-color: var(--card-bg-color);
 }
 
-.favCard:hover {
+.favCard:hover,
+.favFolder:hover {
     outline: 1px solid var(--card-hover-outline-color);
     background-color: var(--card-hover-bg-color);
 }
@@ -470,4 +474,35 @@ div.addFavForm {
     top: -1.5em;
     right: 0em;
     width: auto;
+}
+
+.AppFavListDisplayOptions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1em;
+    gap: 1em;
+}
+
+.favFolder {
+    height: 10em;
+    width: 10em;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.favFolder:hover {
+    cursor: pointer;
+}
+
+.favFolder .favFolder_Name {
+    font-size: 2em;
+    z-index: 2;
+}
+
+.favFolder .favFolder_Size {
+    position: absolute;
+    font-size: 8em;
+    color: var(--main-text-color-veryFade);
 }

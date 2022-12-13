@@ -52,7 +52,7 @@ class StorageItem {
         let storageObj = favStorage(this.storageName).get();
         let storageObjItemsArr = storageObj.items;
 
-        storageObjItemsArr.unshift(itemObj);
+        storageObjItemsArr.push(itemObj);
         
         favStorage(this.storageName).set(storageObj);
     }

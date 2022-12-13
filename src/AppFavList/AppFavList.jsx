@@ -4,6 +4,8 @@ import './css/AppFavListStyle.css';
 
 import AppFavListAdd from './components/AppFavListAdd';
 import AppFavListCard from './components/AppFavListCard';
+import AppFavListFolder from './components/AppFavListFolder';
+import AppFavListDisplayOptions from './components/AppFavListDisplayOptions';
 import AppFavListLoadingAnimation from './components/AppFavListLoadingAnimation';
 
 import favStorage from './modules/storage.js';
@@ -22,9 +24,14 @@ class AppFavList extends Component {
                 editedDate: new Date().toUTCString(),
                 items: [],
                 folders: [],
-                
+
                 isSyncConnected: true,
-                
+
+                optionsUI: {
+                    displayMode: 'folders',
+                    sort: 'dateUp'
+                },
+
                 optionsJSON: {
                     googleCustomSearch: [
                         { apiKey: '', cx: '' }
@@ -45,7 +52,6 @@ class AppFavList extends Component {
         }
 
         this.state = {
-            update: false,
             loadingAnimation: false
         };
     }
@@ -63,23 +69,23 @@ class AppFavList extends Component {
 
         if (mode === 'update') {
             this.syncAnimation(true);
-            
+
             await syncInit.getAndUpdateData()
-                .then( () => {
+                .then(() => {
                     this.syncAnimation(false);
 
                     // mark than we already know server, connected and no need to POST for first connections in SyncFetch
                     let storage = favStorage('favListStorage').get();
                     let alreadyExists = storage.optionsJSON.synchServers[serverIndexInOptions].isAlredyExists;
-                    if( storage.isSyncConnected && !alreadyExists) {
+                    if (storage.isSyncConnected && !alreadyExists) {
 
-                        favStorage('favListStorage').change( storageObj => {
+                        favStorage('favListStorage').change(storageObj => {
                             storageObj.optionsJSON.synchServers[serverIndexInOptions].isAlredyExists = true;
-                        } );
+                        });
                     }
-                } );
-                       
-                this.update();
+                });
+
+            this.update();
         }
         else if (mode === 'send') {
             await syncInit.sendData();
@@ -98,27 +104,86 @@ class AppFavList extends Component {
 
     componentDidMount() {
 
+        // console.dir(  );
+
         this._sync('update');
+
         document.addEventListener('AppFavListAdd.itemAdded', this.syncSend);
-        
+        document.addEventListener('AppFavListCard.updated', this.syncSend);
+
         document.addEventListener('AppFavListAdd.itemAdded', this.update);
         document.addEventListener('AppFavListAdd.backupRestored', this.update);
-        
-        document.addEventListener('AppFavListCard.updated', this.syncSend);
+        document.addEventListener('AppFavListDisplay.update', this.update);
+        document.addEventListener('AppFavListFolder.open', this.update);
     }
 
-    renderCardsWithData() {
-        let dataItemsArr = favStorage('favListStorage').get().items;
+    renderItems() {
+        
+        const storage =  favStorage('favListStorage').get();
 
-        let itemsComponentsArr = dataItemsArr.map((itemData) => {
+        let items = storage.items;
+        const options = storage.optionsUI;
 
-            return (<AppFavListCard key={Math.random()} id={itemData.id} updateParentFunc={this.update} />);
+        if( options.displayMode === 'folders' ) {
+
+            const folders = this._getActualFolders();
+
+            favStorage('favListStorage').change( storage => {
+                storage.folders = folders;
+            } );
+
+            let itemsComponentsArr = folders
+                .map( folder => {
+                    let data = {
+                        name: folder
+                    };
+                    return (<AppFavListFolder data={ data } key={Math.random()} />);
+                });
+            
+            return itemsComponentsArr;
+
+        }
+        else if( options.displayMode === 'currentFolder' ) {
+            
+            if( storage.optionsUI.currentFolder ) {
+                let newItems = items.filter( item => item.folder === storage.optionsUI.currentFolder );
+                return this._returnItemsCompsArr(newItems);
+            }
+        }
+        else if( options.displayMode === 'default' ) {   
+            return this._returnItemsCompsArr(items);
+        }
+    }
+
+    _getActualFolders = () => {
+        let storage = favStorage('favListStorage').get().items;
+        let currentFolders = storage.reduce( (folders, item) => {
+            return [...folders, item.folder];
+        }, [] );
+        currentFolders = [...new Set(currentFolders)];
+        return currentFolders;
+    }
+
+    _returnItemsCompsArr = items => {
+        
+        let itemsComponentsArr = items.map( item => {
+
+            // new StorageItem(item.id, 'favListStorage').change( i => {
+            //     i.folder = 'j';
+            // });
+
+            return (<AppFavListCard id={ item.id } key={Math.random()} />);
         });
 
         return itemsComponentsArr;
     }
 
-    update = () => {
+    // updateItemsList( options ) {
+    //     this.optionsUI = options;
+    //     this.update();
+    // }
+
+    update = e => {
         this.setState({});
     }
 
@@ -128,6 +193,8 @@ class AppFavList extends Component {
             <div className='AppFavListContainer'>
                 <header>
                     <AppFavListAdd callbackFunc={this.update} />
+
+                    <AppFavListDisplayOptions />
 
                     <AppFavListLoadingAnimation
                         key={Math.random()}
@@ -142,7 +209,7 @@ class AppFavList extends Component {
                 </header>
                 <main>
                     <div className='AppFavListCardContainer'>
-                        {this.renderCardsWithData()}
+                        { this.renderItems() }
                     </div>
                 </main>
             </div>

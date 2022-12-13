@@ -31,7 +31,6 @@ class AppFavListCard extends Component {
         this.setState({
             _display: 'short'
         });
-        // this.props.updateParentFunc();
         this.update();
     }
 
