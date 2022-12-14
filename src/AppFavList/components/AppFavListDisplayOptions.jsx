@@ -18,6 +18,7 @@ class AppFavListDisplayOptions extends Component {
         };
 
         this.clicked = false;
+        this.onlySort = false;
     }
 
     clickHandle = (e) => {
@@ -27,18 +28,22 @@ class AppFavListDisplayOptions extends Component {
         if( 'name date rating'.includes(e.target.name) ) {
             
             if( storage.optionsUI.displayMode === 'folders' ) return;
+
+            this.onlySort = true;
             
             this.setState({
                 sort: this.state.sort.includes('Up')
                     ? e.target.name + 'Down'
                     : e.target.name + 'Up',
-                displayMode: 'currentFolder'          
+                // displayMode: 'currentFolder'        
             });
         }
 
         if( 'default folders'.includes(e.target.name) ) {
             
             if( e.target.name === storage.optionsUI.displayMode ) return;
+
+            this.onlySort = false;
             
             this.setState({
                 displayMode: e.target.name
@@ -53,8 +58,15 @@ class AppFavListDisplayOptions extends Component {
         if( !this.clicked ) return;
 
         favStorage('favListStorage').change( storage => {
+            
             storage.optionsUI = storage.optionsUI ? storage.optionsUI : {};
-            storage.optionsUI = Object.assign( storage.optionsUI, this.state );
+            
+            if( this.onlySort ) {
+                storage.optionsUI.sort = this.state.sort;
+            }
+            else {
+                storage.optionsUI = Object.assign( storage.optionsUI, this.state );
+            }
         } );
 
         if( this.clicked ) {
