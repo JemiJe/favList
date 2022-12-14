@@ -51,6 +51,15 @@ class AppFavList extends Component {
             }));
         }
 
+        if( localStorage.getItem('favStorage | options temp backup') ) {
+           
+            favStorage('favListStorage').change( storage => {
+                storage.optionsJSON = favStorage('favStorage | options temp backup').get();
+            } );
+
+            localStorage.removeItem( favStorage('favStorage | options temp backup') );
+        }
+
         this.state = {
             loadingAnimation: false
         };

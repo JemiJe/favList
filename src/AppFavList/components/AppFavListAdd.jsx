@@ -77,7 +77,7 @@ class AppFavListAdd extends Component {
 
             let storage = favStorage('favListStorage').get();
             storage.items.push(Object.assign(this.state, additionalInfoObj));
-            storage.folders = formateData().addFolder( storage.folders, this.state.folder );
+            storage.folders = formateData().addFolder(storage.folders, this.state.folder);
             favStorage('favListStorage').set(storage);
 
             this._event('itemAdded');
@@ -86,6 +86,13 @@ class AppFavListAdd extends Component {
             this.close();
         }
 
+    }
+
+    deleteStorageSaveOptions = () => {
+        const options = favStorage('favListStorage').get().optionsJSON;
+        favStorage('favStorage | options temp backup').set( options );
+
+        localStorage.removeItem('favListStorage');
     }
 
     restoreBackup = () => {
@@ -129,16 +136,22 @@ class AppFavListAdd extends Component {
                         className='optionsForm'
                         onSubmit={this.handleSubmit}
                     >
-                        <div className='addFavForm__formSection' style={{flexDirection: 'row'}}>  
+                        <div className='addFavForm__formSection' style={{ flexDirection: 'row' }}>
                             <button
                                 className='btn'
-                                onClickCapture={ () => favStorage('favListStorage').backup('userBackup') }
+                                onClickCapture={() => favStorage('favListStorage').backup('userBackup')}
                             >{'backup localStorage'}</button>
-                            
+
                             <button
                                 className='btn'
-                                onClickCapture={ this.restoreBackup }
+                                onClickCapture={this.restoreBackup}
                             >{'restore lates backup'}</button>
+
+                            <button
+                                className='btn btnDanger'
+                                onClickCapture={this.deleteStorageSaveOptions}
+                                title={'if there are some problems'}
+                            >{'delete localStorage (options will be saved)'}</button>
                         </div>
 
                         <div className='addFavForm__formSection'>
@@ -213,7 +226,7 @@ class AppFavListAdd extends Component {
                             onChange={e => this.handleChange(e)}
                         />
                     </div>
-                    
+
                     <div className='addFavForm__formSection'>
                         <label htmlFor="folder">{`Folder`}</label>
                         <input
