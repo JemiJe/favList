@@ -57,7 +57,7 @@ class AppFavList extends Component {
                 storage.optionsJSON = favStorage('favStorage | options temp backup').get();
             } );
 
-            localStorage.removeItem( favStorage('favStorage | options temp backup') );
+            localStorage.removeItem( 'favStorage | options temp backup' );
         }
 
         this.state = {
