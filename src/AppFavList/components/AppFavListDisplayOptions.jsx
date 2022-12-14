@@ -25,6 +25,9 @@ class AppFavListDisplayOptions extends Component {
         const storage = favStorage('favListStorage').get();
 
         if( 'name date rating'.includes(e.target.name) ) {
+            
+            if( storage.optionsUI.displayMode === 'folders' ) return;
+            
             this.setState({
                 sort: this.state.sort.includes('Up')
                     ? e.target.name + 'Down'

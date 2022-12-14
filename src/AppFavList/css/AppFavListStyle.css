@@ -215,11 +215,12 @@ div.addFavForm {
     justify-content: space-between;
     position: relative;
     background-color: var(--card-bg-color);
+    transition: 0.3s;
 }
 
 .favCard:hover,
 .favFolder:hover {
-    outline: 1px solid var(--card-hover-outline-color);
+    outline: 2px solid var(--card-hover-outline-color);
     background-color: var(--card-hover-bg-color);
     color: var(--main-text-color) !important;
 }

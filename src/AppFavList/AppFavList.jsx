@@ -170,15 +170,38 @@ class AppFavList extends Component {
     }
 
     _sortItems = (items, optionsUI) => {
+
+        const sortWrapper = (itemsArr, boolCond, func) => {
+            
+            return [...itemsArr].sort( (a, b) => {
+                return boolCond ? func(a) - func(b) : func(b) - func(a);
+            } );
+        }
         
         if( optionsUI.sort.includes('name') ) {
 
             const getWordCode = ({nameEng}) => nameEng[0].toLowerCase().charCodeAt();
             const isUp = optionsUI.sort.includes('Up') ? true : false;
 
-            let itemsSorted = [...items].sort( (a, b) => {
-                return isUp ? getWordCode(a) - getWordCode(b) : getWordCode(b) - getWordCode(a);
-            });
+            let itemsSorted = sortWrapper( items, isUp, getWordCode );
+
+            return itemsSorted;
+        }
+        else if( optionsUI.sort.includes('date') ) {
+            
+            const getDateObj = ({dateAdded}) => new Date( dateAdded );
+            const isUp = optionsUI.sort.includes('Up') ? true : false;
+
+            let itemsSorted = sortWrapper( items, isUp, getDateObj );
+
+            return itemsSorted;
+        }
+        else if( optionsUI.sort.includes('rating') ) {
+            
+            const getRating = ({rating}) => rating >= 0 ? rating : 0;
+            const isUp = optionsUI.sort.includes('Up') ? true : false;
+
+            let itemsSorted = sortWrapper( items, isUp, getRating );
 
             return itemsSorted;
         }

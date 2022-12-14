@@ -39,7 +39,7 @@ class AppFavListCardFullDescription extends Component {
     handleSubmit = () => {
 
         new StorageItem(this.props.id, 'favListStorage').change(item => {
-            item.rating = +this.state.rating;
+            item.rating = this.state.rating ? +this.state.rating : 1;
             item.folder = this.state.folder ? this.state.folder : 'unset';
             item.tags = formateData().handleTags(this.state.tags);
             item.comment = this.state.comment;
