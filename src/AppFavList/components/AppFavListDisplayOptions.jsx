@@ -32,15 +32,6 @@ class AppFavListDisplayOptions extends Component {
 
         const storage = favStorage('favListStorage').get();
 
-        if( !storage.optionsUI ) {
-
-            storage.optionsUI = {
-                currentFolder: '',
-                displayMode: "default",
-                sort: "dateUp"
-            };
-        }
-
         if( 'default folders'.includes(e.target.name) ) {
             
             if( e.target.name === storage.optionsUI.displayMode ) return;

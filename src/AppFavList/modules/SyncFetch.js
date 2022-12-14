@@ -105,6 +105,7 @@ class SyncFetch {
 
                         favStorage('favListStorage').change( storage => {
                             storage.folders = serverData.data.folders;
+                            storage.optionsUI = serverData.data.optionsUI;
                         });
                     }
 
