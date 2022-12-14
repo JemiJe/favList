@@ -144,14 +144,37 @@ class AppFavList extends Component {
 
         }
         else if( options.displayMode === 'currentFolder' ) {
+
+            items = this._sortItems(items, options);
             
             if( storage.optionsUI.currentFolder ) {
                 let newItems = items.filter( item => item.folder === storage.optionsUI.currentFolder );
                 return this._returnItemsCompsArr(newItems);
             }
         }
-        else if( options.displayMode === 'default' ) {   
+        else if( options.displayMode === 'default' ) {
+
+            items = this._sortItems(items, options);
+
             return this._returnItemsCompsArr(items);
+        }
+    }
+
+    _sortItems = (items, optionsUI) => {
+        
+        if( optionsUI.sort.includes('name') ) {
+
+            const getWordCode = ({nameEng}) => nameEng[0].toLowerCase().charCodeAt();
+            const isUp = optionsUI.sort.includes('Up') ? true : false;
+
+            let itemsSorted = [...items].sort( (a, b) => {
+                return isUp ? getWordCode(a) - getWordCode(b) : getWordCode(b) - getWordCode(a);
+            });
+
+            return itemsSorted;
+        }
+        else {
+            return items;
         }
     }
 

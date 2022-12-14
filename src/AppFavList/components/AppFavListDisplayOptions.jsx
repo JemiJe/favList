@@ -15,7 +15,7 @@ class AppFavListDisplayOptions extends Component {
         this.state = {
             displayMode: storage.displayMode,
             sort: storage.sort,
-            currentFolder: false
+            currentFolder: storage.currentFolder
         };
 
         this.clicked = false;
