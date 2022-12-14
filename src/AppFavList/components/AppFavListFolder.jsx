@@ -31,14 +31,14 @@ class AppFavListFolder extends Component {
         document.dispatchEvent(event);
     }
 
-    _getRandomColorStyle = baseColorHSLA => { // example: hsl(199deg 65% 55% / 93%)
-        
-        let randDeg = Math.trunc( 359 * Math.random() );
+    _getColorStyle = (baseColorHSLA, isRandom) => { // example: hsl(199deg 65% 55% / 93%)
+
+        let deg = isRandom ? Math.trunc( 359 * Math.random() ) : ( this.folderItemsAmout()  * 20) % 359;
         let [ s, l, a ] = baseColorHSLA.match( /\d\d%/gm ).map( num => parseInt(num));
 
         return {
-            color: `hsl(${randDeg}deg ${s}% ${l}% / ${a}%)`,
-            backgroundColor: `hsl(${randDeg}deg ${s}% ${l - 40}% / ${a - 60}%)`
+            color: `hsl(${deg}deg ${s}% ${l}% / ${a}%)`,
+            backgroundColor: `hsl(${deg}deg ${s}% ${l - 40}% / ${a - 60}%)`
         };
     }
 
@@ -54,7 +54,7 @@ class AppFavListFolder extends Component {
             <article 
                 className='favFolder'
                 onClickCapture={ this.openFolder }
-                style={ this._getRandomColorStyle( this.baseColor ) }
+                style={ this._getColorStyle( this.baseColor ) }
             >
                 <div className='favFolder_Name'>{ this.props.data.name }</div>
                 <div className='favFolder_Size'>{ this.folderItemsAmout() }</div>

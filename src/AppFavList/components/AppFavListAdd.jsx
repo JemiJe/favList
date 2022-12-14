@@ -68,6 +68,7 @@ class AppFavListAdd extends Component {
         } else {
 
             const additionalInfoObj = {
+                folder: this.state.folder ? this.state.folder : 'unset',
                 rating: +this.state.rating,
                 tags: formateData().handleTags(this.state.tags),
                 dateAdded: new Date().toString(),
