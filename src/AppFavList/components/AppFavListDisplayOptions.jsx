@@ -15,22 +15,23 @@ class AppFavListDisplayOptions extends Component {
         this.state = {
             displayMode: storage.displayMode,
             sort: storage.sort,
-            currentFolder: storage.currentFolder
         };
 
         this.clicked = false;
     }
 
     clickHandle = (e) => {
+
+        const storage = favStorage('favListStorage').get();
+
         if( 'name date rating'.includes(e.target.name) ) {
             this.setState({
                 sort: this.state.sort.includes('Up')
                     ? e.target.name + 'Down'
-                    : e.target.name + 'Up'
+                    : e.target.name + 'Up',
+                displayMode: 'currentFolder'          
             });
         }
-
-        const storage = favStorage('favListStorage').get();
 
         if( 'default folders'.includes(e.target.name) ) {
             
