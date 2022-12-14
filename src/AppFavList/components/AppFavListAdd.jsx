@@ -90,7 +90,7 @@ class AppFavListAdd extends Component {
 
     deleteStorageSaveOptions = () => {
         const options = favStorage('favListStorage').get().optionsJSON;
-        localStorage.setItem('favStorage | options temp backup');
+        localStorage.setItem('favStorage | options temp backup', JSON.stringify( options ));
         favStorage('favStorage | options temp backup').set( options );
 
         localStorage.removeItem('favListStorage');
