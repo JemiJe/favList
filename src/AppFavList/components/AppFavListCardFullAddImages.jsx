@@ -116,7 +116,15 @@ class AppFavListCardFullAddImages extends Component {
         this._event('updated');
     }
 
+    _storageEdited = () => {
+        favStorage('favListStorage').change( storage => {
+            storage.editedDate = new Date().toUTCString();
+        } );
+    }
+
     _event = (msg) => {
+
+        if(msg === 'updated') this._storageEdited();
         let event = new Event('AppFavListCard.' + msg);
         document.dispatchEvent(event);
     }

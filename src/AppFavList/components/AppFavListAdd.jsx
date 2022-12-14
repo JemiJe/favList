@@ -88,6 +88,12 @@ class AppFavListAdd extends Component {
 
     }
 
+    _storageEdited = () => {
+        favStorage('favListStorage').change( storage => {
+            storage.editedDate = new Date().toUTCString();
+        } );
+    }
+
     deleteStorageSaveOptions = () => {
         const options = favStorage('favListStorage').get().optionsJSON;
         localStorage.setItem('favStorage | options temp backup', JSON.stringify( options ));
@@ -103,6 +109,9 @@ class AppFavListAdd extends Component {
     }
 
     _event(type) {
+
+        if( type === 'itemAdded' ) this._storageEdited();
+
         let event = new Event('AppFavListAdd.' + type);
         document.dispatchEvent(event);
     }

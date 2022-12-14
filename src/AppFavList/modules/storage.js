@@ -16,7 +16,7 @@ const favStorage = storageName => {
 
         set(newStorageObj) {
             
-            newStorageObj.editedDate = new Date().toUTCString();
+            // newStorageObj.editedDate = new Date().toUTCString();
             
             localStorage.setItem( storageName, JSON.stringify(newStorageObj) );
             
@@ -31,7 +31,7 @@ const favStorage = storageName => {
             
             func( storageObj );
 
-            storageObj.editedDate = new Date().toUTCString();
+            // storageObj.editedDate = new Date().toUTCString();
             localStorage.setItem( storageName, JSON.stringify(storageObj) );
             
             let event = new Event('storage.js.updated');

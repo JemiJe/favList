@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-// import favStorage from '../modules/storage.js';
+import favStorage from '../modules/storage.js';
 import StorageItem from '../modules/StorageItem.js';
 
 import AppFavListCardFullImage from './AppFavListCardFullImage.jsx';
@@ -68,7 +68,16 @@ class AppFavListCardFull extends Component {
         this.setState({});
     }
 
+    _storageEdited = () => {
+        favStorage('favListStorage').change( storage => {
+            storage.editedDate = new Date().toUTCString();
+        } );
+    }
+
     _event = (msg) => {
+
+        if( msg === 'updated' ) this._storageEdited();
+
         let event = new Event('AppFavListCard.' + msg);
         document.dispatchEvent(event);
     }
