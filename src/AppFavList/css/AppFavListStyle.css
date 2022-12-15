@@ -29,7 +29,7 @@ body {
     /* background-repeat: repeat; */
 }
 
-.AppFavListContainer>header {
+.AppFavListContainer > header {
     margin-bottom: .6em;
 }
 
@@ -64,7 +64,7 @@ textarea {
 
 input:focus-visible,
 textarea:focus-visible {
-    outline: 1px solid var(--btn-active-bg-color);
+    outline: 3px solid var(--btn-active-bg-color);
     transform: scale(1.05);
     transition: 0.2s;
 }
