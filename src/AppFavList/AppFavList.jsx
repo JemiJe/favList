@@ -129,6 +129,12 @@ class AppFavList extends Component {
         document.addEventListener('AppFavListFolder.open', this.update);
     }
 
+    // _folderSize = folderName => {
+    //     let items = favStorage('favListStorage').get().items;
+    //     let folderItems = items.filter( item => item.folder === folderName );
+    //     return folderItems.length;
+    // }
+
     renderItems() {
         
         const storage =  favStorage('favListStorage').get();
@@ -145,9 +151,14 @@ class AppFavList extends Component {
             } );
 
             let itemsComponentsArr = folders
+                .sort( (a, b) => {
+                    let sizeWrap = folder => folder.name === 'unset' ? 0 : folder.size; // 'unset' folder always last
+                    return sizeWrap(b) - sizeWrap(a);
+                } )
                 .map( folder => {
                     let data = {
-                        name: folder
+                        name: folder.name,
+                        size: folder.size
                     };
                     return (<AppFavListFolder data={ data } key={Math.random()} />);
                 });
@@ -222,12 +233,23 @@ class AppFavList extends Component {
         }
     }
 
+    _folderSize = folderName => {
+        let items = favStorage('favListStorage').get().items;
+        let folderItems = items.filter( item => item.folder === folderName );
+        return folderItems.length;
+    }
+
     _getActualFolders = () => {
         let storage = favStorage('favListStorage').get().items;
         let currentFolders = storage.reduce( (folders, item) => {
             return [...folders, item.folder];
         }, [] );
         currentFolders = [...new Set(currentFolders)];
+
+        currentFolders = currentFolders.reduce( (foldersObj, folderName) => {
+            return [ ...foldersObj, {name: folderName, size: this._folderSize(folderName)} ]
+        } , []);
+
         return currentFolders;
     }
 

@@ -15,6 +15,7 @@ class AppFavListLoadingAnimation extends Component {
             display: 'none',
             alignItems: 'center',
             color: '#ffff00',
+            cursor: 'default'
         }, this.props.style);
 
         this.styleIndicator = {

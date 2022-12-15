@@ -177,8 +177,10 @@ class AppFavListCardFullAddImages extends Component {
                         key={Math.random()}
                         isRun={this.state.loadingAnimation}
                         style={{
-                            top: '-0.6em',
-                            left: '1em',
+                            // top: '-0.6em',
+                            // left: '1em',
+                            width: '100%',
+                            height: '100%'
                         }}
                         animationCssNames={['loadingAnimation', 'loadingAnimationText']}
                         text={'searching images...'}

@@ -33,7 +33,14 @@ class AppFavListFolder extends Component {
 
     _getColorStyle = (baseColorHSLA, isRandom) => { // example: hsl(199deg 65% 55% / 93%)
 
-        let deg = isRandom ? Math.trunc( 359 * Math.random() ) : ( this.folderItemsAmout()  * 20) % 359;
+        if( this.props.data.name === 'unset' ) {
+            return {
+                color: 'hsl(199deg 55% 35%)',
+                backgroundColor: 'hsl(199deg 55% 30% / 10%)'
+            };
+        }
+
+        let deg = isRandom ? Math.trunc( 359 * Math.random() ) : ( this.props.data.size  * 20) % 359;
         let [ s, l, a ] = baseColorHSLA.match( /\d\d%/gm ).map( num => parseInt(num));
 
         return {
@@ -42,11 +49,11 @@ class AppFavListFolder extends Component {
         };
     }
 
-    folderItemsAmout() {
-        let items = favStorage('favListStorage').get().items;
-        let folderItems = items.filter( item => item.folder === this.props.data.name );
-        return folderItems.length;
-    }
+    // folderItemsAmout() {
+    //     let items = favStorage('favListStorage').get().items;
+    //     let folderItems = items.filter( item => item.folder === this.props.data.name );
+    //     return folderItems.length;
+    // }
 
     render() {
 
@@ -57,7 +64,7 @@ class AppFavListFolder extends Component {
                 style={ this._getColorStyle( this.baseColor ) }
             >
                 <div className='favFolder_Name'>{ this.props.data.name }</div>
-                <div className='favFolder_Size'>{ this.folderItemsAmout() }</div>
+                <div className='favFolder_Size'>{ this.props.data.size }</div>
             </article>
         );
     }
