@@ -38,6 +38,8 @@ class AppFavListCardFullName extends Component {
         new StorageItem(this.props.id, 'favListStorage').change( item => {
             item.nameEng = this.state.nameEng;
             item.nameAlt = this.state.nameAlt;
+            
+            item.dateEdited = new Date().toUTCString();
         } );
 
         this._event('updated');

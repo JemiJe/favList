@@ -56,6 +56,13 @@ textarea {
     box-sizing: border-box;
 }
 
+input:focus-visible,
+textarea:focus-visible {
+    outline: 1px solid var(--btn-active-bg-color);
+    transform: scale(1.05);
+    transition: 0.2s;
+}
+
 .AppFavListContainer {
     display: flex;
     flex-direction: column;
@@ -511,14 +518,21 @@ div.addFavForm {
 
 .AppFavListDisplayOptions_section {
     position: relative;
+    margin: 0.3em 0;
 }
 
 .AppFavListDisplayOptions_section .AppFavListDisplayOptions_sectionLabel {
+    display: none;
+}
+
+.AppFavListDisplayOptions_section:hover .AppFavListDisplayOptions_sectionLabel {
     position: absolute;
-    top: -1em;
+    top: -1.5em;
     display: flex;
     justify-content: center;
     z-index: -1;
-    color: #42a7d74f;
+    color: #42a7d77a;
     font-size: 0.8em;
+    border: 1px solid;
+    padding: 0.3em 0.3em 0;
 }

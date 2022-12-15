@@ -43,7 +43,7 @@ class AppFavListCardFullDescription extends Component {
             item.folder = this.state.folder ? this.state.folder : 'unset';
             item.tags = formateData().handleTags(this.state.tags);
             item.comment = this.state.comment;
-            item._editDate = new Date().toString();
+            item.dateEdited = new Date().toUTCString();
         });
 
         favStorage('favListStorage').change( storage => {

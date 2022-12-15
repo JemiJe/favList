@@ -111,6 +111,8 @@ class AppFavListCardFullAddImages extends Component {
                     kind: 'favList user added'
                 });
             }
+
+            item.dateEdited = new Date().toUTCString();
         } );
 
         this._event('updated');

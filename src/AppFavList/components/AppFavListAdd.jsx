@@ -72,6 +72,7 @@ class AppFavListAdd extends Component {
                 rating: this.state.rating ? +this.state.rating : 1,
                 tags: formateData().handleTags(this.state.tags),
                 dateAdded: new Date().toString(),
+                dateEdited: new Date().toString(),
                 id: +Math.random().toString().slice(2)
             };
 

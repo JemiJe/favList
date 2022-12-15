@@ -17,6 +17,7 @@ class AppFavListCardFullImage extends Component {
 
         new StorageItem(this.props.id, 'favListStorage').change( item => {
             item.imgFav.webImgUrl = event.target.parentElement.parentElement.querySelector('img').src;
+            item.dateEdited = new Date().toUTCString();
         } );
         
         this._event('updated');
@@ -34,6 +35,8 @@ class AppFavListCardFullImage extends Component {
                 
                 if( thisImgSrc === arrItemSrc) imgsArr.splice( i, 1 );
             }
+
+            item.dateEdited = new Date().toUTCString();
         } );
         
         this._event('updated');

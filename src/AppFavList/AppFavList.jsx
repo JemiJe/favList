@@ -199,6 +199,15 @@ class AppFavList extends Component {
 
             return itemsSorted;
         }
+        else if( optionsUI.sort.includes('edited') ) {
+            
+            const getDateObj = ({dateEdited}) => new Date( dateEdited );
+            const isUp = optionsUI.sort.includes('Up') ? true : false;
+
+            let itemsSorted = sortWrapper( items, isUp, getDateObj );
+
+            return itemsSorted;
+        }
         else if( optionsUI.sort.includes('rating') ) {
             
             const getRating = ({rating}) => rating >= 0 ? rating : 0;
@@ -227,7 +236,8 @@ class AppFavList extends Component {
         let itemsComponentsArr = items.map( item => {
 
             // new StorageItem(item.id, 'favListStorage').change( i => {
-            //     i.folder = 'j';
+            //     delete i._editDate;
+            //     i.dateEdited = 0;
             // });
 
             return (<AppFavListCard id={ item.id } key={Math.random()} />);

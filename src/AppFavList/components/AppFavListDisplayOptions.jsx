@@ -87,6 +87,7 @@ class AppFavListDisplayOptions extends Component {
         return (
             <nav className='AppFavListDisplayOptions'>
                 <div className='AppFavListDisplayOptions_section'>
+                    <span className='AppFavListDisplayOptions_sectionLabel'>ITEMS</span>
                     <button className='btn' name='default' onClickCapture={this.clickHandle}>{'all items'}</button>
                     <button className='btn' name='folders' onClickCapture={this.clickHandle}>{'folders'}</button>
                 </div>
@@ -98,7 +99,8 @@ class AppFavListDisplayOptions extends Component {
                     <button className='btn' name='rating' onClickCapture={this.clickHandle}>{'rating'}</button>
                 </div>
                 <div className='AppFavListDisplayOptions_section'>
-                    <input type="text" name="" id="" placeholder={'Search'}/>
+                    <span className='AppFavListDisplayOptions_sectionLabel'>SEARCH</span>
+                    <input type="text" name="" id="" />
                 </div>
             </nav>
         );
