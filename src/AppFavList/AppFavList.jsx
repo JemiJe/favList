@@ -21,7 +21,7 @@ class AppFavList extends Component {
             localStorage.setItem('favListStorage', JSON.stringify({
 
                 userId: +Math.random().toString().slice(2),
-                editedDate: new Date().toUTCString(),
+                editedDate: 0,
                 items: [],
                 folders: [],
 
@@ -29,7 +29,7 @@ class AppFavList extends Component {
 
                 optionsUI: {
                     displayMode: 'folders',
-                    sort: 'dateUp'
+                    sort: 'addedUp'
                 },
 
                 optionsJSON: {
@@ -82,6 +82,7 @@ class AppFavList extends Component {
             await syncInit.getAndUpdateData()
                 .then(() => {
                     this.syncAnimation(false);
+                    window.favListInterval = {};
 
                     // mark than we already know server, connected and no need to POST for first connections in SyncFetch
                     let storage = favStorage('favListStorage').get();
@@ -92,6 +93,8 @@ class AppFavList extends Component {
                             storageObj.optionsJSON.synchServers[serverIndexInOptions].isAlredyExists = true;
                         });
                     }
+
+                    this._storageEdited();
                 });
 
             this.update();
@@ -187,7 +190,7 @@ class AppFavList extends Component {
 
             return itemsSorted;
         }
-        else if( optionsUI.sort.includes('date') ) {
+        else if( optionsUI.sort.includes('added') ) {
             
             const getDateObj = ({dateAdded}) => new Date( dateAdded );
             const isUp = optionsUI.sort.includes('Up') ? true : false;
@@ -233,10 +236,11 @@ class AppFavList extends Component {
         return itemsComponentsArr;
     }
 
-    // updateItemsList( options ) {
-    //     this.optionsUI = options;
-    //     this.update();
-    // }
+    _storageEdited = () => {
+        favStorage('favListStorage').change( storage => {
+            storage.editedDate = new Date().toUTCString();
+        } );
+    }
 
     update = e => {
         this.setState({});

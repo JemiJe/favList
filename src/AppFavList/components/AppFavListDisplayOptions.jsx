@@ -25,7 +25,7 @@ class AppFavListDisplayOptions extends Component {
 
         const storage = favStorage('favListStorage').get();
 
-        if( 'name date rating'.includes(e.target.name) ) {
+        if( 'name added rating edited'.includes(e.target.name) ) {
             
             if( storage.optionsUI.displayMode === 'folders' ) return;
 
@@ -91,8 +91,10 @@ class AppFavListDisplayOptions extends Component {
                     <button className='btn' name='folders' onClickCapture={this.clickHandle}>{'folders'}</button>
                 </div>
                 <div className='AppFavListDisplayOptions_section'>
+                    <span className='AppFavListDisplayOptions_sectionLabel'>SORT</span>
                     <button className='btn' name='name' onClickCapture={this.clickHandle}>{'name'}</button>
-                    <button className='btn' name='date' onClickCapture={this.clickHandle}>{'date'}</button>
+                    <button className='btn' name='edited' onClickCapture={this.clickHandle}>{'edited'}</button>
+                    <button className='btn' name='added' onClickCapture={this.clickHandle}>{'added'}</button>
                     <button className='btn' name='rating' onClickCapture={this.clickHandle}>{'rating'}</button>
                 </div>
                 <div className='AppFavListDisplayOptions_section'>

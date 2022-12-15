@@ -22,6 +22,7 @@ class AppFavListLoadingAnimation extends Component {
             width: '0.4em',
             height: '0.4em',
             fontSize: '5em',
+            alignSelf: 'flex-start',
         };
 
         this.styleText = {
@@ -35,6 +36,9 @@ class AppFavListLoadingAnimation extends Component {
             animationTimingFunction: 'ease-out',
         };
 
+        this.intervalId = Math.trunc(Math.random() * 999);
+        if(!window.favListInterval) window.favListInterval = {};
+
     }
 
     applyAnimation = animationName => {
@@ -46,6 +50,23 @@ class AppFavListLoadingAnimation extends Component {
         }
     }
 
+    dotsAnimation = () => {
+
+        clearInterval(window.favListInterval[this.intervalId]);
+
+        let counter = 0;
+        let initialText = this.props.text;
+        window.favListInterval[this.intervalId] = setInterval(() => {
+            let textElem = document.querySelector(`.loadingText-${this.intervalId}`);
+            try {
+                textElem.textContent = initialText.slice(0, counter++ % (initialText.length + 1));
+            }
+            catch {
+                return;
+            }
+        }, 1000 / (initialText.length + 5));
+    }
+
     render() {
 
         let styleIndicator = this.styleIndicator;
@@ -55,17 +76,24 @@ class AppFavListLoadingAnimation extends Component {
             styleIndicator = Object.assign( styleIndicator, this.applyAnimation(this.props.animationCssNames[0]) );
             styleText = Object.assign( styleText, this.applyAnimation(this.props.animationCssNames[1]) );
             this.styleContainerElem.display = 'flex';
+            if(!window.favListInterval[this.intervalId]) this.dotsAnimation();
+        } else {
+            clearInterval(window.favListInterval[this.intervalId]);
+            window.favListInterval[this.intervalId] = false;
         }
 
         return (
-            <div style={this.styleContainerElem}>
+            <div
+                className='favList_loadingAnimation' 
+                style={this.styleContainerElem}
+            >
                 <span 
                     className='loadingIndicator'
                     style={ styleIndicator }
                 >
                     {'*'}
                 </span>
-                <span 
+                <span className={`loadingText-${this.intervalId}`}
                     style={ styleText }
                 >
                     {this.props.text ? this.props.text : ''}

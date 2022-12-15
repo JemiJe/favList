@@ -508,3 +508,17 @@ div.addFavForm {
     font-size: 8em;
     color: var(--main-text-color-veryFade);
 }
+
+.AppFavListDisplayOptions_section {
+    position: relative;
+}
+
+.AppFavListDisplayOptions_section .AppFavListDisplayOptions_sectionLabel {
+    position: absolute;
+    top: -1em;
+    display: flex;
+    justify-content: center;
+    z-index: -1;
+    color: #42a7d74f;
+    font-size: 0.8em;
+}
