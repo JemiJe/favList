@@ -15,6 +15,7 @@ class AppFavListCardFullDescription extends Component {
         this.state = {
             _isEdit: false,
             dateAdded: this.dataObj.dateAdded,
+            dateEdited: this.dataObj.dateEdited,
             tags: this.dataObj.tags,
             folder: this.dataObj.folder,
             rating: this.dataObj.rating,
@@ -60,7 +61,19 @@ class AppFavListCardFullDescription extends Component {
 
     renderDate() {
         if (!this.dataObj.dateAdded) return false;
-        return new Date(this.dataObj.dateAdded).toDateString();
+
+        const dateFormateWrap = date => {
+            return new Date(date).toDateString() + ` ${ new Date(date).toTimeString().slice(0,8) }`;
+        };
+
+        const added = this.dataObj.dateAdded ? `added: ${ dateFormateWrap(this.dataObj.dateAdded) }` : '';
+        const edited = this.dataObj.dateEdited ? `edited: ${ dateFormateWrap(this.dataObj.dateEdited) }` : '';
+        return (
+            <>
+                { added ?  <span>{ added }</span> : null}
+                { edited ?  <span>{ edited }</span> : null}
+            </>
+        );
     }
 
     _event = (msg) => {
@@ -146,9 +159,8 @@ class AppFavListCardFullDescription extends Component {
 
         return (
             <>
-                <div className='favCardFull_DateAdder'>
-                    {'date added:'}<br/>
-                    {`${this.state.dateAdded ? this.renderDate() : 'unknown'}`}
+                <div className='favCardFull_DateAdded'>
+                    { this.renderDate() }
                 </div>
                 <div className='favCardFull_Rating'>
                     {'rating:'}<br/>

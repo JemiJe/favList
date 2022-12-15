@@ -106,6 +106,14 @@ class AppFavListCardFull extends Component {
                         
                         <AppFavListCardFullName id={ dataObj.id } />
 
+                        <div className='favCardFull_imgHeader'>
+                            <img
+                                src={`${dataObj.imgFav.webImgUrl}`}
+                                alt="favListPhoto"
+                                width={176}
+                            />
+                        </div>
+
                         <div className='optionsBtnSet'>
                             <button
                                 className='btn btnDanger btnDelete hideEdit'

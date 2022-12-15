@@ -43,6 +43,12 @@ textarea:focus {
     /* color: #297EA6; */
 }
 
+img,
+.favCardFull_imgsContainer,
+.favCardFull_imgHeader {
+    background: linear-gradient(180deg, var(--main-text-color-veryFade) 50%, transparent 100%);
+}
+
 label {
     margin-bottom: .5em;
 }
@@ -351,6 +357,16 @@ div.addFavForm {
     margin-bottom: 0.8em;
 }
 
+.favCardFull_imgHeader {
+    height: 10em;
+    width: 20em;
+ }
+
+.favCardFull_imgHeader img {
+    object-fit: cover;
+    object-position: top;
+}
+
 .favCardFull_Name .optionsBtnSet,
 .favCardFull header .optionsBtnSet,
 .favCardFull_Description .optionsBtnSet {
@@ -425,13 +441,21 @@ div.addFavForm {
     position: absolute;
 }
 
-.favCardFull_DateAdder,
+.favCardFull_DateAdded,
 .favCardFull_Rating,
 .favCardFull_Tags,
 .favCardFull_Comment {
     max-width: 40em;
     padding: 0.3em 0;
     text-align: center;
+}
+
+.favCardFull_DateAdded {
+    display: flex;
+    flex-direction: column;
+}
+.favCardFull_DateAdded span:last-child {
+    opacity: 0.75;
 }
 
 @keyframes loadingAnimation {
