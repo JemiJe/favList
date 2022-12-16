@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import favStorage from '../modules/storage.js';
 import formateData from '../modules/formateData.js';
 
-// events: 'AppFavListAdd.itemAdded' 'AppFavListAdd.backupRestored'
+// events: 'AppFavListAdd.itemAdded' 'AppFavListAdd.backupRestored' 'AppFavListAdd.optionsChanged'
 
 class AppFavListAdd extends Component {
 
@@ -52,14 +52,14 @@ class AppFavListAdd extends Component {
 
         e.preventDefault();
 
-        if (this.state._display === 'options') {
+        if (this.state._display === 'options' && !'import export'.includes(e.target.name)) {
 
-            let storage = favStorage('favListStorage').get();
+            favStorage('favListStorage').change(storage => {
+                let insertedOptionsObj = JSON.parse(this.state.optionsJSON);
+                storage.optionsJSON = insertedOptionsObj;
+            });
 
-            let insertedOptionsObj = JSON.parse(this.state.optionsJSON);
-            storage.optionsJSON = insertedOptionsObj;
-
-            favStorage('favListStorage').set(storage);
+            this._event('optionsChanged');
 
             this.setState({
                 _display: 'short'
@@ -90,15 +90,15 @@ class AppFavListAdd extends Component {
     }
 
     _storageEdited = () => {
-        favStorage('favListStorage').change( storage => {
+        favStorage('favListStorage').change(storage => {
             storage.editedDate = new Date().toUTCString();
-        } );
+        });
     }
 
     deleteStorageSaveOptions = () => {
         const options = favStorage('favListStorage').get().optionsJSON;
-        localStorage.setItem('favStorage | options temp backup', JSON.stringify( options ));
-        favStorage('favStorage | options temp backup').set( options );
+        localStorage.setItem('favStorage | options temp backup', JSON.stringify(options));
+        favStorage('favStorage | options temp backup').set(options);
 
         localStorage.removeItem('favListStorage');
     }
@@ -109,9 +109,28 @@ class AppFavListAdd extends Component {
         this._event('backupRestored');
     }
 
+    importItems = () => {
+        let inputTextAreaValue = document.querySelector('#importExport').value;
+        favStorage('favListStorage').change( storage => {
+            storage.items = JSON.parse( inputTextAreaValue );
+        } );
+    }
+
+    exportItems = () => {
+        let outputTextArea = document.querySelector('#importExport');
+        outputTextArea.textContent = this._returnItemsJSON();
+        outputTextArea.onclick = outputTextArea.select;
+    }
+
+    _returnItemsJSON = () => {
+        let items = favStorage('favListStorage').get().items;
+
+        return JSON.stringify(items, null, 2);
+    }
+
     _event(type) {
 
-        if( type === 'itemAdded' ) this._storageEdited();
+        if (type === 'itemAdded' || type === 'optionsChanged') this._storageEdited();
 
         let event = new Event('AppFavListAdd.' + type);
         document.dispatchEvent(event);
@@ -143,11 +162,14 @@ class AppFavListAdd extends Component {
 
             return (
                 <div className='optionsFormWrapper'>
-                    <form
-                        className='optionsForm'
-                        onSubmit={this.handleSubmit}
-                    >
-                        <div className='addFavForm__formSection' style={{ flexDirection: 'row' }}>
+                    <div className='optionsForm'>
+                        
+                        <button
+                            className='favCardFull_BtnClose btn'
+                            onClickCapture={this.close}
+                        >X</button>
+                        
+                        <div className='addFavForm__formSection' style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                             <button
                                 className='btn'
                                 onClickCapture={() => favStorage('favListStorage').backup('userBackup')}
@@ -164,7 +186,11 @@ class AppFavListAdd extends Component {
                                 title={'if there are some problems'}
                             >{'delete localStorage (options will be saved)'}</button>
                         </div>
-
+                    </div>
+                    <form
+                        className='optionsForm'
+                        onSubmit={this.handleSubmit}
+                    >
                         <div className='addFavForm__formSection'>
                             <label htmlFor="optionsJSON">{`JSON options`}</label>
                             <textarea
@@ -178,14 +204,34 @@ class AppFavListAdd extends Component {
                             <button
                                 type="submit"
                                 className='submitBtn btn'
+                                name='optionsJSON'
                             >{'Apply'}</button>
-
-                            <button
-                                className='favCardFull_BtnClose btn'
-                                onClickCapture={this.close}
-                            >X</button>
                         </div>
                     </form>
+                    <div className='optionsForm'>
+                        <div className='addFavForm__formSection'>
+                            <label htmlFor="importExport">{`Import/Export items`}</label>
+                            <textarea
+                                type="text"
+                                id='importExport'
+                                name='importExport'
+                                placeholder='for import insert here your exported json and click import'
+                                onChange={e => this.handleChange(e)}
+                            />
+
+                            <button
+                                className='btn'
+                                name='import'
+                                onClickCapture={this.importItems}
+                            >{'import'}</button>
+
+                            <button
+                                className='btn'
+                                name='export'
+                                onClickCapture={this.exportItems}
+                            >{'export'}</button>
+                        </div>
+                    </div>
                 </div>
             );
         }

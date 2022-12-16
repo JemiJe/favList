@@ -117,6 +117,22 @@ class AppFavList extends Component {
     componentDidMount() {
 
         // console.dir(  );
+        // alert();
+        // favStorage('favListStorage').change( storage => {
+        //     storage.items = storage.items.map( item => {
+        //         if( !item.imgFav.webImgUrlsArr.length ) return item;
+                
+        //         item.imgFav.webImgUrlsArr = item.imgFav.webImgUrlsArr.map( img => {
+        //             img = {
+        //                 link: img.link,
+        //                 title: img.title,
+        //             };
+        //             return img;
+        //         } );
+
+        //         return item;
+        //     } );
+        // } );
 
         this._sync('update');
 
@@ -194,7 +210,7 @@ class AppFavList extends Component {
         
         if( optionsUI.sort.includes('name') ) {
 
-            const getWordCode = ({nameEng}) => nameEng[0].toLowerCase().charCodeAt();
+            const getWordCode = ({nameEng}) => nameEng ? nameEng[0].toLowerCase().charCodeAt() : 32; //empty '' fix
             const isUp = optionsUI.sort.includes('Up') ? true : false;
 
             let itemsSorted = sortWrapper( items, isUp, getWordCode );
@@ -259,6 +275,7 @@ class AppFavList extends Component {
 
             // new StorageItem(item.id, 'favListStorage').change( i => {
             //     delete i._editDate;
+            //     delete i.optionsJSON;
             //     i.dateEdited = 0;
             // });
 

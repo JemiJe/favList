@@ -163,7 +163,7 @@ div.addFavForm {
 }
 
 .addFavForm__formSection {
-    border: 1px solid var(--main-text-color);
+    /* border: 1px solid var(--main-text-color); */
     padding: 0.8em;
     display: flex;
     flex-direction: column;
@@ -198,7 +198,7 @@ div.addFavForm {
     
     outline: 1px solid;
     margin: 1em;
-    padding: 1em;
+    /* padding: 1em; */
     position: relative;
     background-color: var(--main-bg-color-trans);
 }
@@ -212,7 +212,8 @@ div.addFavForm {
     max-height: 3em;
 }
 
-.optionsForm #optionsJSON {
+.optionsForm #optionsJSON,
+.optionsForm #importExport {
     height: 15em;
 }
 
@@ -255,6 +256,7 @@ div.addFavForm {
 .favCardName {
     font-size: 0.9em;
     color: var(--name-color);
+    overflow: hidden;
 }
 
 .favCardDateAdder {
@@ -341,6 +343,8 @@ div.addFavForm {
     flex-wrap: nowrap;
     margin: 0.5em 0px;
     position: relative;
+    max-width: 20em;
+    overflow: hidden;
 }
 
 .favCardFull_Name span {

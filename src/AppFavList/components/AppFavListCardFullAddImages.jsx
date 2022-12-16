@@ -92,7 +92,10 @@ class AppFavListCardFullAddImages extends Component {
             if (addArray) {
 
                 for (let imgItem of addArray) {
-                    item.imgFav.webImgUrlsArr.push(imgItem);
+                    item.imgFav.webImgUrlsArr.push({
+                        link: imgItem.link,
+                        title: imgItem.title
+                    });
                 }
 
                 if( item.imgFav.hasOwnProperty( 'prevImagePageCounter' ) ) {   
