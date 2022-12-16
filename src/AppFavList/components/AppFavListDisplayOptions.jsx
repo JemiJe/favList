@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import favStorage from '../modules/storage.js';
 // import formateData from '../modules/formateData.js';
 
-// events: 'AppFavListDisplay.update'
+// events: 'AppFavListDisplay.update' 'AppFavListDisplay.searching'(dataObj = value)
 
 class AppFavListDisplayOptions extends Component {
 
@@ -15,6 +15,7 @@ class AppFavListDisplayOptions extends Component {
         this.state = {
             displayMode: storage.displayMode,
             sort: storage.sort,
+            searchValue: ''
         };
 
         this.clicked = false;
@@ -75,8 +76,22 @@ class AppFavListDisplayOptions extends Component {
         }
     }
 
-    _event(type) {
+    handleChange(e) {
+        
+        if( e.target.name === 'searchValue' ) {
+            let { name, value } = e.target;
+
+            this._event( 'searching', value );
+
+            this.setState({
+                [name]: value
+            });
+        }
+    }
+
+    _event(type, data) {
         let event = new Event('AppFavListDisplay.' + type);
+        event.dataObj = data;
         document.dispatchEvent(event);
     }
 
@@ -100,7 +115,12 @@ class AppFavListDisplayOptions extends Component {
                 </div>
                 <div className='AppFavListDisplayOptions_section'>
                     <span className='AppFavListDisplayOptions_sectionLabel'>SEARCH</span>
-                    <input type="text" name="" id="" />
+                    <input
+                        onChange={e => this.handleChange(e)} 
+                        type="text" 
+                        name="searchValue"
+                        id="searchValue" 
+                    />
                 </div>
             </nav>
         );

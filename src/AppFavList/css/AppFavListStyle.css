@@ -67,7 +67,7 @@ textarea:focus-visible {
     outline: 3px solid var(--btn-active-bg-color);
     transform: scale(1.05);
     transition: 0.2s;
-}
+} 
 
 .AppFavListContainer {
     display: flex;
@@ -344,7 +344,7 @@ div.addFavForm {
     margin: 0.5em 0px;
     position: relative;
     max-width: 20em;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .favCardFull_Name span {
@@ -564,3 +564,7 @@ div.addFavForm {
     border: 1px solid;
     padding: 0.3em 0.3em 0;
 }
+
+/* .emptySearchResults {
+
+} */

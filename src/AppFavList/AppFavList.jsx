@@ -61,7 +61,8 @@ class AppFavList extends Component {
         }
 
         this.state = {
-            loadingAnimation: false
+            loadingAnimation: false,
+            isSearching: false,
         };
     }
 
@@ -142,6 +143,7 @@ class AppFavList extends Component {
         document.addEventListener('AppFavListAdd.itemAdded', this.update);
         document.addEventListener('AppFavListAdd.backupRestored', this.update);
         document.addEventListener('AppFavListDisplay.update', this.update);
+        document.addEventListener('AppFavListDisplay.searching', this.update);
         document.addEventListener('AppFavListFolder.open', this.update);
     }
 
@@ -197,6 +199,27 @@ class AppFavList extends Component {
 
             return this._returnItemsCompsArr(items);
         }
+    }
+
+    _filterSearchItems = (items, textCond) => {
+        if( !textCond ) return;
+        
+        let filterTextCond = textCond.toLowerCase();
+        
+        const valueFormate = value => value.toString().toLowerCase();
+        const isValueEqualCond = value => valueFormate(value).includes(filterTextCond);
+        const removeExtraProps = item => {
+            let copyItem = Object.assign({}, item);
+            [ 'id', 'imgFav' ].forEach( prop => delete copyItem[prop] );
+            return copyItem;
+        };
+
+        let filteredItems = [...items].filter( item => {
+            return Object.values( removeExtraProps(item) ).find( isValueEqualCond );
+        } );
+
+        // return filteredItems.length > 0 ? filteredItems : items;
+        return filteredItems;
     }
 
     _sortItems = (items, optionsUI) => {
@@ -270,17 +293,14 @@ class AppFavList extends Component {
     }
 
     _returnItemsCompsArr = items => {
+
+        items = this.state.isSearching ? this._filterSearchItems(items, this.state.isSearching) : items;
         
-        let itemsComponentsArr = items.map( item => {
-
-            // new StorageItem(item.id, 'favListStorage').change( i => {
-            //     delete i._editDate;
-            //     delete i.optionsJSON;
-            //     i.dateEdited = 0;
-            // });
-
-            return (<AppFavListCard id={ item.id } key={Math.random()} />);
-        });
+        let itemsComponentsArr = items.length > 0 
+            ? items.map( item => {
+                return (<AppFavListCard id={ item.id } key={Math.random()} />);
+            })
+            : [(<div className='emptySearchResults'>{':( nothing was found'}</div>)];
 
         return itemsComponentsArr;
     }
@@ -292,7 +312,9 @@ class AppFavList extends Component {
     }
 
     update = e => {
-        this.setState({});
+        this.setState({
+            isSearching: e.type === 'AppFavListDisplay.searching' ? e.dataObj : false
+        });
     }
 
     render() {
