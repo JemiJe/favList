@@ -48,22 +48,38 @@ class AppFavListAdd extends Component {
         }
     }
 
+    setNewUserOptions = e => {
+
+        e.preventDefault();
+        
+        favStorage('favListStorage').change(storage => {
+            let insertedOptionsObj = JSON.parse(this.state.optionsJSON);
+            storage.optionsJSON = insertedOptionsObj;
+        });
+
+        this._event('optionsChanged');
+
+        this.setState({
+            _display: 'short'
+        });
+    }
+
     handleSubmit = e => {
 
         e.preventDefault();
 
         if (this.state._display === 'options' && !'import export'.includes(e.target.name)) {
 
-            favStorage('favListStorage').change(storage => {
-                let insertedOptionsObj = JSON.parse(this.state.optionsJSON);
-                storage.optionsJSON = insertedOptionsObj;
-            });
+            // favStorage('favListStorage').change(storage => {
+            //     let insertedOptionsObj = JSON.parse(this.state.optionsJSON);
+            //     storage.optionsJSON = insertedOptionsObj;
+            // });
 
-            this._event('optionsChanged');
+            // this._event('optionsChanged');
 
-            this.setState({
-                _display: 'short'
-            });
+            // this.setState({
+            //     _display: 'short'
+            // });
 
         } else {
 
@@ -189,7 +205,6 @@ class AppFavListAdd extends Component {
                     </div>
                     <form
                         className='optionsForm'
-                        onSubmit={this.handleSubmit}
                     >
                         <div className='addFavForm__formSection'>
                             <label htmlFor="optionsJSON">{`JSON options`}</label>
@@ -205,6 +220,7 @@ class AppFavListAdd extends Component {
                                 type="submit"
                                 className='submitBtn btn'
                                 name='optionsJSON'
+                                onClickCapture={this.setNewUserOptions}
                             >{'Apply'}</button>
                         </div>
                     </form>
