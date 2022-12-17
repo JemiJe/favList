@@ -51,6 +51,9 @@ class AppFavListDisplayOptions extends Component {
             });
         }
 
+        [...document.querySelectorAll('.btnSpec')].forEach( elem => elem.classList.remove('btnSpec'));
+        e.target.classList.add('btnSpec');
+
         this.clicked = true;
     }
 
@@ -102,24 +105,25 @@ class AppFavListDisplayOptions extends Component {
         return (
             <nav className='AppFavListDisplayOptions'>
                 <div className='AppFavListDisplayOptions_section'>
-                    <span className='AppFavListDisplayOptions_sectionLabel'>ITEMS</span>
+                    {/* <span className='AppFavListDisplayOptions_sectionLabel'>ITEMS</span> */}
                     <button className='btn' name='default' onClickCapture={this.clickHandle}>{'all items'}</button>
                     <button className='btn' name='folders' onClickCapture={this.clickHandle}>{'folders'}</button>
                 </div>
                 <div className='AppFavListDisplayOptions_section'>
-                    <span className='AppFavListDisplayOptions_sectionLabel'>SORT</span>
+                    {/* <span className='AppFavListDisplayOptions_sectionLabel'>SORT</span> */}
                     <button className='btn' name='name' onClickCapture={this.clickHandle}>{'name'}</button>
                     <button className='btn' name='edited' onClickCapture={this.clickHandle}>{'edited'}</button>
                     <button className='btn' name='added' onClickCapture={this.clickHandle}>{'added'}</button>
                     <button className='btn' name='rating' onClickCapture={this.clickHandle}>{'rating'}</button>
                 </div>
                 <div className='AppFavListDisplayOptions_section'>
-                    <span className='AppFavListDisplayOptions_sectionLabel'>SEARCH</span>
+                    {/* <span className='AppFavListDisplayOptions_sectionLabel'>SEARCH</span> */}
                     <input
                         onChange={e => this.handleChange(e)} 
                         type="text" 
                         name="searchValue"
-                        id="searchValue" 
+                        id="searchValue"
+                        placeholder='Search...'
                     />
                 </div>
             </nav>

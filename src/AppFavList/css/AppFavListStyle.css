@@ -4,7 +4,7 @@
     --main-bg-color-trans: #272721d5;
     /* --main-text-color: #cbb3f5; */
     --main-text-color: #42a7d7;
-    --main-text-color-veryFade: #42a7d712;
+    --main-text-color-veryFade: hsla(199, 65%, 55%, 0.071);
     
     --hover-color: #f5f3b3;
 
@@ -15,10 +15,15 @@
     --card-hover-bg-color: #3387ad45;
     --card-hover-outline-color: #42a7d7;
     
-    --btn-bg-color: #2d739438;
-    --btn-hover-bg-color: #42a7d7;
-    --btn-active-bg-color: #59caff;
-    --btn-active-color: #272721;
+    --btn-bg-color: hsla(199, 50%, 67%, 0.20);
+    --btn-hover-bg-color: hsl(199, 50%, 67%);
+    --btn-active-bg-color: hsl(199, 100%, 67%);
+    --btn-active-color: #272721; /* #d7c542 */
+
+    --btn-special-bg-color: hsla(78, 50%, 67%, 0.20);
+    --btn-special-hover-bg-color: hsl(78, 50%, 67%);
+    --btn-special-active-bg-color: hsl(78, 100%, 67%);
+    --btn-special-active-color: #272721; /* #d7c542 */
 }
 
 body {
@@ -136,15 +141,31 @@ div.addFavForm {
     color: var(--btn-active-color);
 }
 
+.btn.btnSpec {
+    outline: 1px solid;
+    color: var(--btn-special-active-bg-color);
+    background-color: var(--btn-special-bg-color);
+}
+
 .btn.btnDanger {
     outline: 1px solid #f5b3b3;
     color: #f5b3b3;
     background-color: #ff818131;
 }
 
+.btn.btnSpec:hover {
+    background-color: var(--btn-special-hover-bg-color);
+    color: #272121;
+}
+
 .btn.btnDanger:hover {
     background-color: #ff8181;
     color: #272121;
+}
+
+.btn.btnSpec:active {
+    background-color: var(--btn-special-active-bg-color);
+    color: var(--btn-special-active-color);
 }
 
 .btn.btnDanger:active {
@@ -527,7 +548,7 @@ div.addFavForm {
     width: 10em;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 .favFolder:hover {
     cursor: pointer;
@@ -536,12 +557,41 @@ div.addFavForm {
 .favFolder .favFolder_Name {
     font-size: 2em;
     z-index: 2;
+    text-align: center;
+    overflow: hidden;
+    max-height: 3em;
 }
 
 .favFolder .favFolder_Size {
     position: absolute;
     font-size: 8em;
     color: var(--main-text-color-veryFade);
+}
+
+.favFolder .optionsBtnSet {
+    display: none;
+}
+.favFolder:hover .optionsBtnSet {
+    display: flex;
+}
+
+.favFolder_renameForm {
+    z-index: 2;
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--main-bg-color-trans);
+}
+.favFolder_renameForm input {
+    height: 3em;
+    border-left: 0;
+    border-right: 0;
+}
+.favFolder_renameForm .btn {
+    outline: 0;
+    border-bottom: 1px solid;
 }
 
 .AppFavListDisplayOptions_section {

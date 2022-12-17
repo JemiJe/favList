@@ -26,7 +26,7 @@ class SyncFetch {
         let method = this.isPost ? 'POST' : 'PUT';
 
         if( this.isWithoutImgs ) {
-            currentData.items = this._removeImagesUrls(currentData.items);
+            // currentData.items = this._removeImagesUrls(currentData.items);
         }
 
         try {
@@ -137,9 +137,9 @@ class SyncFetch {
                 
                 new StorageItem(serverItem.id, 'favListStorage').change( item => {
                     
-                    let temp = item.imgFav.webImgUrlsArr;                              
+                    // let temp = item.imgFav.webImgUrlsArr;                              
                     item = Object.assign(item, serverItem);
-                    item.imgFav.webImgUrlsArr = temp;
+                    // item.imgFav.webImgUrlsArr = temp;
                 } );
 
             } else { // new items
@@ -164,16 +164,16 @@ class SyncFetch {
         document.dispatchEvent(event);
     }
 
-    _removeImagesUrls(itemsArr) {
+    // _removeImagesUrls(itemsArr) {
 
-        let newArr = [...itemsArr];
+    //     let newArr = [...itemsArr];
 
-        for( let item of newArr ) {
-            item.imgFav.webImgUrlsArr = [];
-        }
+    //     for( let item of newArr ) {
+    //         item.imgFav.webImgUrlsArr = [];
+    //     }
 
-        return newArr;
-    }
+    //     return newArr;
+    // }
 
     _deleteExtraItems(idsWereSendFromServerArr) {
 

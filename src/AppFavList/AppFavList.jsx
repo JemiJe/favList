@@ -144,7 +144,8 @@ class AppFavList extends Component {
         document.addEventListener('AppFavListAdd.backupRestored', this.update);
         document.addEventListener('AppFavListDisplay.update', this.update);
         document.addEventListener('AppFavListDisplay.searching', this.update);
-        document.addEventListener('AppFavListFolder.open', this.update);
+        // document.addEventListener('AppFavListFolder.open', this.update);
+        document.addEventListener('AppFavListFolder.updated', this.update);
     }
 
     // _folderSize = folderName => {
