@@ -475,6 +475,11 @@ div.addFavForm {
     text-align: center;
 }
 
+.favCardFull_Description .sectionHeader{
+    display: block;
+    margin-bottom: 0.5em;
+}
+
 .favCardFull_DateAdded {
     display: flex;
     flex-direction: column;
@@ -613,6 +618,18 @@ div.addFavForm {
     font-size: 0.8em;
     border: 1px solid;
     padding: 0.3em 0.3em 0;
+}
+
+.favCardFull_Tags:first-child() {
+    margin-bottom: 1em;
+}
+
+.favCardFull_Tags .tag {
+    margin: 0 0.1em;
+    padding: 0.2em 0.4em;
+    border-radius: 0.5em;
+    display: inline-flex;
+    flex-wrap: wrap;
 }
 
 /* .emptySearchResults {

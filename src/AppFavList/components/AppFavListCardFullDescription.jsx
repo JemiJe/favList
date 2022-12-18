@@ -75,8 +75,30 @@ class AppFavListCardFullDescription extends Component {
             </>
         );
     }
+    
+    renderTags() {
+        
+        const colorStyle = tag => { 
+            // const randDeg = Math.trunc( Math.random() * 359 );
+            const getDeg = [...tag].map( i => i.charCodeAt()).reduce( ((sum, i) => sum + i), 0) % 359;
+            return { 
+                color: `hsl(${ getDeg }deg 65% 55%)`,
+                backgroundColor: `hsl(${ getDeg }deg 65% 55% / 20%)`
+            } 
+        };
+        
+        return [...this.state.tags].map(tag => {
+            return ( 
+                <span 
+                    className='tag' 
+                    key={Math.random()}
+                    style={colorStyle(tag)}
+                >{tag}</span> 
+            )
+        });
+    }
 
-    _event = (msg) => {
+    _event = msg => {
 
         if(msg === 'updated') this._storageEdited();
         
@@ -163,19 +185,19 @@ class AppFavListCardFullDescription extends Component {
                     { this.renderDate() }
                 </div>
                 <div className='favCardFull_Rating'>
-                    {'rating:'}<br/>
+                    <span className='sectionHeader'>{'rating:'}</span>
                     {`${this.state.rating}`}
                 </div>
                 <div className='favCardFull_Folder'>
-                    {'folder:'}<br/>
+                    <span className='sectionHeader'>{'folder:'}</span>
                     {`${this.state.folder}`}
                 </div>
                 <div className='favCardFull_Tags'>
-                    {'tags:'}<br/>
-                    {`${this.state.tags}`}
+                    <span className='sectionHeader'>{'tags:'}</span>
+                    { this.renderTags() }
                 </div>
                 <div className='favCardFull_Comment'>
-                    {'comment:'}<br/>
+                    <span className='sectionHeader'>{'comment:'}</span>
                     {`${this.state.comment}`}
                 </div>
 
