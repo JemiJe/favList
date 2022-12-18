@@ -4,6 +4,7 @@ import StorageItem from '../modules/StorageItem.js';
 import formateData from '../modules/formateData.js';
 import favStorage from '../modules/storage.js';
 import favList_getActualTags from '../modules/favList_getActualTags.js';
+import favList_typingSuggestion from '../modules/favList_typingSuggestion.js';
 
 // events: 'AppFavListCard.updated'
 class AppFavListCardFullDescription extends Component {
@@ -22,6 +23,7 @@ class AppFavListCardFullDescription extends Component {
             rating: this.dataObj.rating,
             comment: this.dataObj.comment,
             _actualTags: favList_getActualTags(),
+            _actualFolders: favStorage('favListStorage').get().folders.map(f => f.name),
         };
     }
 
@@ -36,7 +38,8 @@ class AppFavListCardFullDescription extends Component {
 
         this.setState({
             [name]: value,
-            _isTagsTyping: name === 'tags' ? value : false
+            _isTagsTyping: name === 'tags' ? value : false,
+            _isFolderTyping: name === 'folder' ? value : false,
         });
     }
 
@@ -115,16 +118,41 @@ class AppFavListCardFullDescription extends Component {
         });
     }
 
+    suggestionInsertOnClick = (e) => {
+        console.dir(e.target.textContent);
+
+        let insertTarget = e.target.parentNode.parentNode.querySelector('.suggestionInsert');
+        
+        insertTarget.value += insertTarget.name === 'tags'
+            ? ', ' + e.target.textContent
+            : e.target.textContent;
+    }
+
     renderTagsWereFound = typingStr => {
 
-        typingStr = typingStr.includes(',') ? typingStr.split(',').at(-1) : typingStr;
-        
-        let foundTags = [...this.state._actualTags]
-            .filter(tag => tag.includes( typingStr.trim() ));
+        let foundTags = favList_typingSuggestion(typingStr, this.state._actualTags)
 
-        return foundTags.map( (tag, i) => {
-            return <span className='tag' key={i}>{tag}</span>
-        } );
+        return foundTags.map((tag, i) => {
+            return <span 
+                className='tag' 
+                key={i}
+                onClickCapture={this.suggestionInsertOnClick}
+            >{tag}
+            </span>
+        });
+    }
+
+    renderFolderWereFound = typingStr => {
+
+        let foundFolders = favList_typingSuggestion(typingStr, this.state._actualFolders)
+
+        return foundFolders.map((folder, i) => {
+            return <span 
+                className='folder' 
+                key={i}
+                onClickCapture={this.suggestionInsertOnClick}
+            >{folder}</span>
+        });
     }
 
     render() {
@@ -151,8 +179,9 @@ class AppFavListCardFullDescription extends Component {
                         />
                     </div>
 
-                    <div>
+                    <div style={{ position: 'relative' }}>
                         <input
+                            className='suggestionInsert'
                             type="text"
                             id='folder'
                             name='folder'
@@ -160,10 +189,17 @@ class AppFavListCardFullDescription extends Component {
                             placeholder={'folder'}
                             onChange={e => this.handleChange(e)}
                         />
+
+                        {this.state._isFolderTyping &&
+                            <div className='addFavForm__foundFolders'>
+                                {this.renderFolderWereFound(this.state._isFolderTyping)}
+                            </div>
+                        }
                     </div>
 
-                    <div style={{position: 'relative'}}>
+                    <div style={{ position: 'relative' }}>
                         <textarea
+                            className='suggestionInsert' 
                             type="text"
                             id='tags'
                             name='tags'

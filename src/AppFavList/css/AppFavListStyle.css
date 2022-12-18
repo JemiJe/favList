@@ -141,20 +141,23 @@ div.addFavForm {
     color: var(--btn-active-color);
 }
 
-.addFavForm__foundTags {
+.addFavForm__foundTags,
+.addFavForm__foundFolders {
     position: absolute;
     top: 90%;
     display: flex;
     flex-wrap: wrap;
-    padding: 0.3em;
     z-index: 11;
     background-color: var(--main-bg-color-trans);
 }
-.addFavForm__foundTags .tag {
+
+.addFavForm__foundTags .tag,
+.addFavForm__foundFolders .folder {
     padding: 0.3em;
     background: var(--btn-bg-color);
     border-radius: 0.3em;
     margin: 0.1em;
+    cursor: pointer;
 }
 
 .btn.btnSpec {

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import favStorage from '../modules/storage.js';
 import formateData from '../modules/formateData.js';
 import favList_getActualTags from '../modules/favList_getActualTags.js';
+import favList_typingSuggestion from '../modules/favList_typingSuggestion.js';
 
 // events: 'AppFavListAdd.itemAdded' 'AppFavListAdd.backupRestored' 'AppFavListAdd.optionsChanged'
 
@@ -25,6 +26,7 @@ class AppFavListAdd extends Component {
             _display: 'short',
             _isTagsTyping: false,
             _actualTags: favList_getActualTags(),
+            _actualFolders: favStorage('favListStorage').get().folders.map(f => f.name),
             optionsJSON: JSON.stringify(favStorage('favListStorage').get().optionsJSON, null, 2)
         };
     }
@@ -38,7 +40,8 @@ class AppFavListAdd extends Component {
 
         this.setState({
             [name]: value,
-            _isTagsTyping: name === 'tags' ? value : false
+            _isTagsTyping: name === 'tags' ? value : false,
+            _isFolderTyping: name === 'folder' ? value : false,
         });
     }
 
@@ -59,7 +62,7 @@ class AppFavListAdd extends Component {
     setNewUserOptions = e => {
 
         e.preventDefault();
-        
+
         favStorage('favListStorage').change(storage => {
             let insertedOptionsObj = JSON.parse(this.state.optionsJSON);
             storage.optionsJSON = insertedOptionsObj;
@@ -113,16 +116,40 @@ class AppFavListAdd extends Component {
 
     }
 
+    suggestionInsertOnClick = (e) => {
+        console.dir(e.target.textContent);
+
+        let insertTarget = e.target.parentNode.parentNode.querySelector('.suggestionInsert');
+        insertTarget.value += insertTarget.name === 'tags'
+            ? ', ' + e.target.textContent
+            : e.target.textContent;
+    }
+
     renderTagsWereFound = typingStr => {
 
-        typingStr = typingStr.includes(',') ? typingStr.split(',').at(-1) : typingStr;
-        
-        let foundTags = [...this.state._actualTags]
-            .filter(tag => tag.includes( typingStr.trim() ));
+        let foundTags = favList_typingSuggestion(typingStr, this.state._actualTags)
 
-        return foundTags.map( (tag, i) => {
-            return <span className='tag' key={i}>{tag}</span>
-        } );
+        return foundTags.map((tag, i) => {
+            return <span 
+                className='tag' 
+                key={i}
+                onClickCapture={this.suggestionInsertOnClick}
+            >{tag}
+            </span>
+        });
+    }
+
+    renderFolderWereFound = typingStr => {
+
+        let foundFolders = favList_typingSuggestion(typingStr, this.state._actualFolders)
+
+        return foundFolders.map((folder, i) => {
+            return <span 
+                className='folder' 
+                key={i}
+                onClickCapture={this.suggestionInsertOnClick}
+            >{folder}</span>
+        });
     }
 
     _storageEdited = () => {
@@ -147,9 +174,9 @@ class AppFavListAdd extends Component {
 
     importItems = () => {
         let inputTextAreaValue = document.querySelector('#importExport').value;
-        favStorage('favListStorage').change( storage => {
-            storage.items = JSON.parse( inputTextAreaValue );
-        } );
+        favStorage('favListStorage').change(storage => {
+            storage.items = JSON.parse(inputTextAreaValue);
+        });
     }
 
     exportItems = () => {
@@ -199,12 +226,12 @@ class AppFavListAdd extends Component {
             return (
                 <div className='optionsFormWrapper'>
                     <div className='optionsForm'>
-                        
+
                         <button
                             className='favCardFull_BtnClose btn'
                             onClickCapture={this.close}
                         >X</button>
-                        
+
                         <div className='addFavForm__formSection' style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                             <button
                                 className='btn'
@@ -320,25 +347,32 @@ class AppFavListAdd extends Component {
                         />
                     </div>
 
-                    <div className='addFavForm__formSection'>
+                    <div className='addFavForm__formSection' style={{ position: 'relative' }}>
                         <label htmlFor="folder">{`Folder`}</label>
                         <input
+                            className='suggestionInsert'
                             type="text"
                             id='folder'
                             name='folder'
                             onChange={e => this.handleChange(e)}
                         />
+                        {this.state._isFolderTyping &&
+                            <div className='addFavForm__foundFolders'>
+                                {this.renderFolderWereFound(this.state._isFolderTyping)}
+                            </div>
+                        }
                     </div>
 
-                    <div className='addFavForm__formSection' style={{position: 'relative'}}>
+                    <div className='addFavForm__formSection' style={{ position: 'relative' }}>
                         <label htmlFor="tags">{`Tags`}</label>
                         <textarea
+                        className='suggestionInsert'
                             type="text"
                             id='tags'
                             name='tags'
                             onChange={e => this.handleChange(e)}
                         />
-                        { this.state._isTagsTyping &&  
+                        {this.state._isTagsTyping &&
                             <div className='addFavForm__foundTags'>
                                 {this.renderTagsWereFound(this.state._isTagsTyping)}
                             </div>
