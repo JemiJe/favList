@@ -24,6 +24,8 @@
     --btn-special-hover-bg-color: hsl(78, 50%, 67%);
     --btn-special-active-bg-color: hsl(78, 100%, 67%);
     --btn-special-active-color: #272721; /* #d7c542 */
+
+    --stars-color: #cec400;
 }
 
 body {
@@ -276,6 +278,7 @@ div.addFavForm {
 .favFolder:hover {
     outline: 2px solid var(--card-hover-outline-color);
     background-color: var(--card-hover-bg-color);
+    /* background-image: linear-gradient(180deg,  var(--card-hover-bg-color), transparent); */
     color: var(--main-text-color) !important;
 }
 
@@ -450,6 +453,11 @@ div.addFavForm {
     width: 100%;
 }
 
+.favCardFull_Folder .folder{
+    outline: 1px solid;
+    padding: 0.3em;
+}
+
 .btnEdit {
     opacity: 0.5;
     font-size: 0.8em;
@@ -459,6 +467,7 @@ div.addFavForm {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 0.5em;
 }
 
 .favCardFull .favCardFull_Images {
@@ -639,16 +648,17 @@ div.addFavForm {
     padding: 0.3em 0.3em 0;
 }
 
-.favCardFull_Tags:first-child() {
-    margin-bottom: 1em;
-}
-
 .favCardFull_Tags .tag {
     margin: 0.1em;
     padding: 0.2em 0.4em;
     border-radius: 0.5em;
     display: inline-flex;
     flex-wrap: wrap;
+}
+
+.favCardFull_Rating .rating {
+    font-size: 2em;
+    color: var(--stars-color);
 }
 
 /* .emptySearchResults {

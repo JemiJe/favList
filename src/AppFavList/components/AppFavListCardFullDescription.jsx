@@ -27,6 +27,14 @@ class AppFavListCardFullDescription extends Component {
         };
     }
 
+    componentDidMount() {
+        document.addEventListener('focusin', this.removeSuggestion);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('focusin', this.removeSuggestion);
+    }
+
     changeDisplayTrigger = () => {
         this.setState({
             _isEdit: this.state._isEdit ? false : true
@@ -63,6 +71,11 @@ class AppFavListCardFullDescription extends Component {
             _isEdit: false,
             tags: formateData().handleTags(this.state.tags)
         })
+    }
+
+    renderRating = () => {
+        let ratingNum = this.state.rating > 5 ? 5 : this.state.rating;
+        return '\u2605'.repeat(ratingNum);
     }
 
     renderDate() {
@@ -115,6 +128,14 @@ class AppFavListCardFullDescription extends Component {
     _storageEdited = () => {
         favStorage('favListStorage').change(storage => {
             storage.editedDate = new Date().toUTCString();
+        });
+    }
+
+    removeSuggestion = e => {
+        if( e.target.classList.value.includes( 'suggestionInsert' ) ) return;
+        this.setState({
+            _isTagsTyping: false,
+            _isFolderTyping: false,
         });
     }
 
@@ -242,19 +263,19 @@ class AppFavListCardFullDescription extends Component {
                     {this.renderDate()}
                 </div>
                 <div className='favCardFull_Rating'>
-                    <span className='sectionHeader'>{'rating:'}</span>
-                    {`${this.state.rating}`}
+                { <span className='rating'>
+                        { this.renderRating() }
+                    </span> }
                 </div>
                 <div className='favCardFull_Folder'>
-                    <span className='sectionHeader'>{'folder:'}</span>
-                    {`${this.state.folder}`}
+                    { <span className='folder'>
+                        { this.state.folder }
+                    </span> }
                 </div>
                 <div className='favCardFull_Tags'>
-                    <span className='sectionHeader'>{'tags:'}</span>
                     {this.renderTags()}
                 </div>
                 <div className='favCardFull_Comment'>
-                    <span className='sectionHeader'>{'comment:'}</span>
                     {`${this.state.comment}`}
                 </div>
 

@@ -31,6 +31,14 @@ class AppFavListAdd extends Component {
         };
     }
 
+    componentDidMount() {
+        document.addEventListener('focusin', this.removeSuggestion);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('focusin', this.removeSuggestion);
+    }
+
     handleChange(e) {
         let { name, value } = e.target;
 
@@ -114,6 +122,14 @@ class AppFavListAdd extends Component {
             this.close();
         }
 
+    }
+
+    removeSuggestion = e => {
+        if( e.target.classList.value.includes( 'suggestionInsert' ) ) return;
+        this.setState({
+            _isTagsTyping: false,
+            _isFolderTyping: false,
+        });
     }
 
     suggestionInsertOnClick = (e) => {
