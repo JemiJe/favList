@@ -141,6 +141,22 @@ div.addFavForm {
     color: var(--btn-active-color);
 }
 
+.addFavForm__foundTags {
+    position: absolute;
+    top: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0.3em;
+    z-index: 11;
+    background-color: var(--main-bg-color-trans);
+}
+.addFavForm__foundTags .tag {
+    padding: 0.3em;
+    background: var(--btn-bg-color);
+    border-radius: 0.3em;
+    margin: 0.1em;
+}
+
 .btn.btnSpec {
     outline: 1px solid;
     color: var(--btn-special-active-bg-color);
@@ -625,7 +641,7 @@ div.addFavForm {
 }
 
 .favCardFull_Tags .tag {
-    margin: 0 0.1em;
+    margin: 0.1em;
     padding: 0.2em 0.4em;
     border-radius: 0.5em;
     display: inline-flex;

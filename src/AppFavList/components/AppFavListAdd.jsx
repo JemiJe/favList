@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import favStorage from '../modules/storage.js';
 import formateData from '../modules/formateData.js';
+import favList_getActualTags from '../modules/favList_getActualTags.js';
 
 // events: 'AppFavListAdd.itemAdded' 'AppFavListAdd.backupRestored' 'AppFavListAdd.optionsChanged'
 
@@ -22,6 +23,8 @@ class AppFavListAdd extends Component {
             tags: '',
             rating: '',
             _display: 'short',
+            _isTagsTyping: false,
+            _actualTags: favList_getActualTags(),
             optionsJSON: JSON.stringify(favStorage('favListStorage').get().optionsJSON, null, 2)
         };
     }
@@ -34,9 +37,14 @@ class AppFavListAdd extends Component {
         }
 
         this.setState({
-            [name]: value
+            [name]: value,
+            _isTagsTyping: name === 'tags' ? value : false
         });
     }
+
+    // componentDidMount() {
+    //     console.log( this.state._actualTags );
+    // }
 
     clearForm() {
         let formElems = [...document.querySelectorAll(`
@@ -103,6 +111,18 @@ class AppFavListAdd extends Component {
             this.close();
         }
 
+    }
+
+    renderTagsWereFound = typingStr => {
+
+        typingStr = typingStr.includes(',') ? typingStr.split(',').at(-1) : typingStr;
+        
+        let foundTags = [...this.state._actualTags]
+            .filter(tag => tag.includes( typingStr.trim() ));
+
+        return foundTags.map( (tag, i) => {
+            return <span className='tag' key={i}>{tag}</span>
+        } );
     }
 
     _storageEdited = () => {
@@ -310,7 +330,7 @@ class AppFavListAdd extends Component {
                         />
                     </div>
 
-                    <div className='addFavForm__formSection'>
+                    <div className='addFavForm__formSection' style={{position: 'relative'}}>
                         <label htmlFor="tags">{`Tags`}</label>
                         <textarea
                             type="text"
@@ -318,6 +338,11 @@ class AppFavListAdd extends Component {
                             name='tags'
                             onChange={e => this.handleChange(e)}
                         />
+                        { this.state._isTagsTyping &&  
+                            <div className='addFavForm__foundTags'>
+                                {this.renderTagsWereFound(this.state._isTagsTyping)}
+                            </div>
+                        }
                     </div>
 
                     <div className='addFavForm__formSection'>

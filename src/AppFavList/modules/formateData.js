@@ -7,7 +7,7 @@ const formateData = () => {
 
         handleTags(tagsStr) {
           
-            if (!tagsStr.includes(',')) return [...tagsStr];
+            if (!tagsStr.includes(',')) return [tagsStr];
 
             return tagsStr.split(',')
                 .map(i => i.trim())

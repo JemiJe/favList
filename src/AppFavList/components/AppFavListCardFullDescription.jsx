@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import StorageItem from '../modules/StorageItem.js';
 import formateData from '../modules/formateData.js';
 import favStorage from '../modules/storage.js';
+import favList_getActualTags from '../modules/favList_getActualTags.js';
 
 // events: 'AppFavListCard.updated'
 class AppFavListCardFullDescription extends Component {
@@ -19,7 +20,8 @@ class AppFavListCardFullDescription extends Component {
             tags: this.dataObj.tags,
             folder: this.dataObj.folder,
             rating: this.dataObj.rating,
-            comment: this.dataObj.comment
+            comment: this.dataObj.comment,
+            _actualTags: favList_getActualTags(),
         };
     }
 
@@ -33,7 +35,8 @@ class AppFavListCardFullDescription extends Component {
         let { name, value } = e.target;
 
         this.setState({
-            [name]: value
+            [name]: value,
+            _isTagsTyping: name === 'tags' ? value : false
         });
     }
 
@@ -47,9 +50,9 @@ class AppFavListCardFullDescription extends Component {
             item.dateEdited = new Date().toUTCString();
         });
 
-        favStorage('favListStorage').change( storage => {
+        favStorage('favListStorage').change(storage => {
             storage.folders = formateData().addFolder(storage.folders, this.state.folder);
-        } );
+        });
 
         this._event('updated');
 
@@ -63,52 +66,64 @@ class AppFavListCardFullDescription extends Component {
         if (!this.dataObj.dateAdded) return false;
 
         const dateFormateWrap = date => {
-            return new Date(date).toDateString() + ` ${ new Date(date).toTimeString().slice(0,8) }`;
+            return new Date(date).toDateString() + ` ${new Date(date).toTimeString().slice(0, 8)}`;
         };
 
-        const added = this.dataObj.dateAdded ? `added: ${ dateFormateWrap(this.dataObj.dateAdded) }` : '';
-        const edited = this.dataObj.dateEdited ? `edited: ${ dateFormateWrap(this.dataObj.dateEdited) }` : '';
+        const added = this.dataObj.dateAdded ? `added: ${dateFormateWrap(this.dataObj.dateAdded)}` : '';
+        const edited = this.dataObj.dateEdited ? `edited: ${dateFormateWrap(this.dataObj.dateEdited)}` : '';
         return (
             <>
-                { added ?  <span>{ added }</span> : null}
-                { edited ?  <span>{ edited }</span> : null}
+                {added ? <span>{added}</span> : null}
+                {edited ? <span>{edited}</span> : null}
             </>
         );
     }
-    
+
     renderTags() {
-        
-        const colorStyle = tag => { 
+
+        const colorStyle = tag => {
             // const randDeg = Math.trunc( Math.random() * 359 );
-            const getDeg = [...tag].map( i => i.charCodeAt()).reduce( ((sum, i) => sum + i), 0) % 359;
-            return { 
-                color: `hsl(${ getDeg }deg 65% 55%)`,
-                backgroundColor: `hsl(${ getDeg }deg 65% 55% / 20%)`
-            } 
+            const getDeg = [...tag].map(i => i.charCodeAt()).reduce(((sum, i) => sum + i), 0) % 359;
+            return {
+                color: `hsl(${getDeg}deg 65% 55%)`,
+                backgroundColor: `hsl(${getDeg}deg 65% 55% / 20%)`
+            }
         };
-        
+
         return [...this.state.tags].map(tag => {
-            return ( 
-                <span 
-                    className='tag' 
+            return (
+                <span
+                    className='tag'
                     key={Math.random()}
                     style={colorStyle(tag)}
-                >{tag}</span> 
+                >{tag}</span>
             )
         });
     }
 
     _event = msg => {
 
-        if(msg === 'updated') this._storageEdited();
-        
+        if (msg === 'updated') this._storageEdited();
+
         let event = new Event('AppFavListCard.' + msg);
         document.dispatchEvent(event);
     }
 
     _storageEdited = () => {
-        favStorage('favListStorage').change( storage => {
+        favStorage('favListStorage').change(storage => {
             storage.editedDate = new Date().toUTCString();
+        });
+    }
+
+    renderTagsWereFound = typingStr => {
+
+        typingStr = typingStr.includes(',') ? typingStr.split(',').at(-1) : typingStr;
+        
+        let foundTags = [...this.state._actualTags]
+            .filter(tag => tag.includes( typingStr.trim() ));
+
+        return foundTags.map( (tag, i) => {
+            return <span className='tag' key={i}>{tag}</span>
         } );
     }
 
@@ -147,7 +162,7 @@ class AppFavListCardFullDescription extends Component {
                         />
                     </div>
 
-                    <div>
+                    <div style={{position: 'relative'}}>
                         <textarea
                             type="text"
                             id='tags'
@@ -156,6 +171,12 @@ class AppFavListCardFullDescription extends Component {
                             placeholder={'tags'}
                             onChange={e => this.handleChange(e)}
                         />
+
+                        {this.state._isTagsTyping &&
+                            <div className='addFavForm__foundTags'>
+                                {this.renderTagsWereFound(this.state._isTagsTyping)}
+                            </div>
+                        }
                     </div>
 
                     <div>
@@ -182,7 +203,7 @@ class AppFavListCardFullDescription extends Component {
         return (
             <>
                 <div className='favCardFull_DateAdded'>
-                    { this.renderDate() }
+                    {this.renderDate()}
                 </div>
                 <div className='favCardFull_Rating'>
                     <span className='sectionHeader'>{'rating:'}</span>
@@ -194,7 +215,7 @@ class AppFavListCardFullDescription extends Component {
                 </div>
                 <div className='favCardFull_Tags'>
                     <span className='sectionHeader'>{'tags:'}</span>
-                    { this.renderTags() }
+                    {this.renderTags()}
                 </div>
                 <div className='favCardFull_Comment'>
                     <span className='sectionHeader'>{'comment:'}</span>
