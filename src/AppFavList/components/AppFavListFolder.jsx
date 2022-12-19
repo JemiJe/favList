@@ -22,7 +22,9 @@ class AppFavListFolder extends Component {
     openFolder = e => {
 
         // if ('favFolder_renameForm renameFolderInput btn'.includes(e.target.classList.value)) return;
-        if (e.target.parentElement.classList.value === 'optionsBtnSet') return;
+        if (e.target.parentElement.classList.value === 'optionsBtnSet'
+            || e.target.id === 'renameFolderValue'
+            || e.target.id === 'renameFolderBtn' ) return;
 
         favStorage('favListStorage').change(storage => {
             storage.optionsUI.displayMode = 'currentFolder';
@@ -175,6 +177,7 @@ class AppFavListFolder extends Component {
                             onChangeCapture={this.handleChange}
                         />
                         <button
+                            id='renameFolderBtn'
                             className='btn'
                             onClickCapture={this.renameFolder}
                         >{'OK'}</button>

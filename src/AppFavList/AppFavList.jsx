@@ -51,13 +51,13 @@ class AppFavList extends Component {
             }));
         }
 
-        if( localStorage.getItem('favStorage | options temp backup') ) {
-           
-            favStorage('favListStorage').change( storage => {
-                storage.optionsJSON = favStorage('favStorage | options temp backup').get();
-            } );
+        if (localStorage.getItem('favStorage | options temp backup')) {
 
-            localStorage.removeItem( 'favStorage | options temp backup' );
+            favStorage('favListStorage').change(storage => {
+                storage.optionsJSON = favStorage('favStorage | options temp backup').get();
+            });
+
+            localStorage.removeItem('favStorage | options temp backup');
         }
 
         this.state = {
@@ -117,23 +117,7 @@ class AppFavList extends Component {
 
     componentDidMount() {
 
-        // console.dir(  );
-        // alert();
-        // favStorage('favListStorage').change( storage => {
-        //     storage.items = storage.items.map( item => {
-        //         if( !item.imgFav.webImgUrlsArr.length ) return item;
-                
-        //         item.imgFav.webImgUrlsArr = item.imgFav.webImgUrlsArr.map( img => {
-        //             img = {
-        //                 link: img.link,
-        //                 title: img.title,
-        //             };
-        //             return img;
-        //         } );
-
-        //         return item;
-        //     } );
-        // } );
+        // this._cleanItems();
 
         this._sync('update');
 
@@ -148,53 +132,60 @@ class AppFavList extends Component {
         document.addEventListener('AppFavListFolder.updated', this.update);
     }
 
-    // _folderSize = folderName => {
-    //     let items = favStorage('favListStorage').get().items;
-    //     let folderItems = items.filter( item => item.folder === folderName );
-    //     return folderItems.length;
+    // _cleanItems() {
+    //     favStorage('favListStorage').change(storage => {
+    //         for (let item of storage.items) {
+    //             delete item._isFolderTyping;
+    //             delete item.optionsJSON;
+    //             delete item._actualFolders;
+    //             delete item._isTagsTyping;
+    //             delete item._actualTags;
+    //             delete item._display;
+    //         }
+    //     });
     // }
 
     renderItems() {
-        
-        const storage =  favStorage('favListStorage').get();
+
+        const storage = favStorage('favListStorage').get();
 
         let items = storage.items;
         const options = storage.optionsUI;
 
-        if( options.displayMode === 'folders' ) {
+        if (options.displayMode === 'folders') {
 
             const folders = this._getActualFolders();
 
-            favStorage('favListStorage').change( storage => {
+            favStorage('favListStorage').change(storage => {
                 storage.folders = folders;
-            } );
+            });
 
             let itemsComponentsArr = folders
-                .sort( (a, b) => {
+                .sort((a, b) => {
                     let sizeWrap = folder => folder.name === 'unset' ? 0 : folder.size; // 'unset' folder always last
                     return sizeWrap(b) - sizeWrap(a);
-                } )
-                .map( folder => {
+                })
+                .map(folder => {
                     let data = {
                         name: folder.name,
                         size: folder.size
                     };
-                    return (<AppFavListFolder data={ data } key={Math.random()} />);
+                    return (<AppFavListFolder data={data} key={Math.random()} />);
                 });
-            
+
             return itemsComponentsArr;
 
         }
-        else if( options.displayMode === 'currentFolder' ) {
+        else if (options.displayMode === 'currentFolder') {
 
             items = this._sortItems(items, options);
-            
-            if( storage.optionsUI.currentFolder ) {
-                let newItems = items.filter( item => item.folder === storage.optionsUI.currentFolder );
+
+            if (storage.optionsUI.currentFolder) {
+                let newItems = items.filter(item => item.folder === storage.optionsUI.currentFolder);
                 return this._returnItemsCompsArr(newItems);
             }
         }
-        else if( options.displayMode === 'default' ) {
+        else if (options.displayMode === 'default') {
 
             items = this._sortItems(items, options);
 
@@ -203,21 +194,21 @@ class AppFavList extends Component {
     }
 
     _filterSearchItems = (items, textCond) => {
-        if( !textCond ) return;
-        
+        if (!textCond) return;
+
         let filterTextCond = textCond.toLowerCase();
-        
+
         const valueFormate = value => value.toString().toLowerCase();
         const isValueEqualCond = value => valueFormate(value).includes(filterTextCond);
         const removeExtraProps = item => {
             let copyItem = Object.assign({}, item);
-            [ 'id', 'imgFav' ].forEach( prop => delete copyItem[prop] );
+            ['id', 'imgFav'].forEach(prop => delete copyItem[prop]);
             return copyItem;
         };
 
-        let filteredItems = [...items].filter( item => {
-            return Object.values( removeExtraProps(item) ).find( isValueEqualCond );
-        } );
+        let filteredItems = [...items].filter(item => {
+            return Object.values(removeExtraProps(item)).find(isValueEqualCond);
+        });
 
         // return filteredItems.length > 0 ? filteredItems : items;
         return filteredItems;
@@ -226,45 +217,45 @@ class AppFavList extends Component {
     _sortItems = (items, optionsUI) => {
 
         const sortWrapper = (itemsArr, boolCond, func) => {
-            
-            return [...itemsArr].sort( (a, b) => {
+
+            return [...itemsArr].sort((a, b) => {
                 return boolCond ? func(a) - func(b) : func(b) - func(a);
-            } );
+            });
         }
-        
-        if( optionsUI.sort.includes('name') ) {
 
-            const getWordCode = ({nameEng}) => nameEng ? nameEng[0].toLowerCase().charCodeAt() : 32; //empty '' fix
+        if (optionsUI.sort.includes('name')) {
+
+            const getWordCode = ({ nameEng }) => nameEng ? nameEng[0].toLowerCase().charCodeAt() : 32; //empty '' fix
             const isUp = optionsUI.sort.includes('Up') ? true : false;
 
-            let itemsSorted = sortWrapper( items, isUp, getWordCode );
+            let itemsSorted = sortWrapper(items, isUp, getWordCode);
 
             return itemsSorted;
         }
-        else if( optionsUI.sort.includes('added') ) {
-            
-            const getDateObj = ({dateAdded}) => new Date( dateAdded );
+        else if (optionsUI.sort.includes('added')) {
+
+            const getDateObj = ({ dateAdded }) => new Date(dateAdded);
             const isUp = optionsUI.sort.includes('Up') ? true : false;
 
-            let itemsSorted = sortWrapper( items, isUp, getDateObj );
+            let itemsSorted = sortWrapper(items, isUp, getDateObj);
 
             return itemsSorted;
         }
-        else if( optionsUI.sort.includes('edited') ) {
-            
-            const getDateObj = ({dateEdited}) => new Date( dateEdited );
+        else if (optionsUI.sort.includes('edited')) {
+
+            const getDateObj = ({ dateEdited }) => new Date(dateEdited);
             const isUp = optionsUI.sort.includes('Up') ? true : false;
 
-            let itemsSorted = sortWrapper( items, isUp, getDateObj );
+            let itemsSorted = sortWrapper(items, isUp, getDateObj);
 
             return itemsSorted;
         }
-        else if( optionsUI.sort.includes('rating') ) {
-            
-            const getRating = ({rating}) => rating >= 0 ? rating : 0;
+        else if (optionsUI.sort.includes('rating')) {
+
+            const getRating = ({ rating }) => rating >= 0 ? rating : 0;
             const isUp = optionsUI.sort.includes('Up') ? true : false;
 
-            let itemsSorted = sortWrapper( items, isUp, getRating );
+            let itemsSorted = sortWrapper(items, isUp, getRating);
 
             return itemsSorted;
         }
@@ -275,20 +266,20 @@ class AppFavList extends Component {
 
     _folderSize = folderName => {
         let items = favStorage('favListStorage').get().items;
-        let folderItems = items.filter( item => item.folder === folderName );
+        let folderItems = items.filter(item => item.folder === folderName);
         return folderItems.length;
     }
 
     _getActualFolders = () => {
         let storage = favStorage('favListStorage').get().items;
-        let currentFolders = storage.reduce( (folders, item) => {
+        let currentFolders = storage.reduce((folders, item) => {
             return [...folders, item.folder];
-        }, [] );
+        }, []);
         currentFolders = [...new Set(currentFolders)];
 
-        currentFolders = currentFolders.reduce( (foldersObj, folderName) => {
-            return [ ...foldersObj, {name: folderName, size: this._folderSize(folderName)} ]
-        } , []);
+        currentFolders = currentFolders.reduce((foldersObj, folderName) => {
+            return [...foldersObj, { name: folderName, size: this._folderSize(folderName) }]
+        }, []);
 
         return currentFolders;
     }
@@ -296,10 +287,10 @@ class AppFavList extends Component {
     _returnItemsCompsArr = items => {
 
         items = this.state.isSearching ? this._filterSearchItems(items, this.state.isSearching) : items;
-        
-        let itemsComponentsArr = items.length > 0 
-            ? items.map( item => {
-                return (<AppFavListCard id={ item.id } key={Math.random()} />);
+
+        let itemsComponentsArr = items.length > 0
+            ? items.map(item => {
+                return (<AppFavListCard id={item.id} key={Math.random()} />);
             })
             : [(<div className='emptySearchResults'>{':( nothing was found'}</div>)];
 
@@ -307,9 +298,9 @@ class AppFavList extends Component {
     }
 
     _storageEdited = () => {
-        favStorage('favListStorage').change( storage => {
+        favStorage('favListStorage').change(storage => {
             storage.editedDate = new Date().toUTCString();
-        } );
+        });
     }
 
     update = e => {
@@ -340,7 +331,7 @@ class AppFavList extends Component {
                 </header>
                 <main>
                     <div className='AppFavListCardContainer'>
-                        { this.renderItems() }
+                        {this.renderItems()}
                     </div>
                 </main>
             </div>

@@ -100,7 +100,7 @@ class AppFavListCardFull extends Component {
                         <button
                             className='favCardFull_BtnClose btn'
                             onClickCapture={ this.props.callbackFunc }
-                        >X</button>
+                        ><span>+</span></button>
                     </aside>
                     <header>
                         

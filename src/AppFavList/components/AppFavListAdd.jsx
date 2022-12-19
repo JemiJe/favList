@@ -111,10 +111,17 @@ class AppFavListAdd extends Component {
                 id: +Math.random().toString().slice(2)
             };
 
-            let storage = favStorage('favListStorage').get();
-            storage.items.push(Object.assign(this.state, additionalInfoObj));
-            storage.folders = formateData().addFolder(storage.folders, this.state.folder);
-            favStorage('favListStorage').set(storage);
+            favStorage('favListStorage').change( storage => {
+                
+                storage.items.push(Object.assign({
+                    nameEng: this.state.nameEng,
+                    nameAlt: this.state.nameAlt,
+                    comment: this.state.comment,
+                    imgFav: this.state.imgFav,
+                }, additionalInfoObj));
+                
+                storage.folders = formateData().addFolder(storage.folders, this.state.folder);
+            } );
 
             this._event('itemAdded');
 
@@ -232,7 +239,7 @@ class AppFavListAdd extends Component {
                     >{'Add'}</button>
                     <button
                         onClickCapture={() => this.setState({ _display: 'options' })}
-                    >{'options'}</button>
+                    >{'Options'}</button>
                 </div>
             );
         }
@@ -246,7 +253,7 @@ class AppFavListAdd extends Component {
                         <button
                             className='favCardFull_BtnClose btn'
                             onClickCapture={this.close}
-                        >X</button>
+                        ><span>+</span></button>
 
                         <div className='addFavForm__formSection' style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                             <button
@@ -412,7 +419,7 @@ class AppFavListAdd extends Component {
                         <button
                             className='btnClose btn'
                             onClickCapture={this.close}
-                        >X</button>
+                        ><span>+</span></button>
                         <button
                             type="submit"
                             className='submitBtn Btn'
