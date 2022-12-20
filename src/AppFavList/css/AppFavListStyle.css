@@ -1,11 +1,10 @@
-
 :root {
     --main-bg-color: #272721;
     --main-bg-color-trans: #272721d5;
     /* --main-text-color: #cbb3f5; */
     --main-text-color: #42a7d7;
     --main-text-color-veryFade: hsla(199, 65%, 55%, 0.071);
-    
+
     --hover-color: #f5f3b3;
 
     --name-color: #c2e100;
@@ -14,16 +13,18 @@
     --card-bg-color: #0f293545;
     --card-hover-bg-color: #3387ad45;
     --card-hover-outline-color: #42a7d7;
-    
+
     --btn-bg-color: hsla(199, 50%, 67%, 0.20);
     --btn-hover-bg-color: hsl(199, 50%, 67%);
     --btn-active-bg-color: hsl(199, 100%, 67%);
-    --btn-active-color: #272721; /* #d7c542 */
+    --btn-active-color: #272721;
+    /* #d7c542 */
 
     --btn-special-bg-color: hsla(78, 50%, 67%, 0.20);
     --btn-special-hover-bg-color: hsl(78, 50%, 67%);
     --btn-special-active-bg-color: hsl(78, 100%, 67%);
-    --btn-special-active-color: #272721; /* #d7c542 */
+    --btn-special-active-color: #272721;
+    /* #d7c542 */
 
     --stars-color: #cec400;
 }
@@ -36,7 +37,7 @@ body {
     /* background-repeat: repeat; */
 }
 
-.AppFavListContainer > header {
+.AppFavListContainer>header {
     margin-bottom: .6em;
 }
 
@@ -74,7 +75,7 @@ textarea:focus-visible {
     outline: 3px solid var(--btn-active-bg-color);
     transform: scale(1.05);
     transition: 0.2s;
-} 
+}
 
 .AppFavListContainer {
     display: flex;
@@ -237,7 +238,7 @@ div.addFavForm {
     align-content: center;
     align-items: center;
     justify-content: flex-start;
-    
+
     outline: 1px solid;
     margin: 1em;
     /* padding: 1em; */
@@ -407,7 +408,7 @@ div.addFavForm {
 .favCardFull_imgHeader {
     height: 10em;
     width: 20em;
- }
+}
 
 .favCardFull_imgHeader img {
     object-fit: cover;
@@ -433,13 +434,16 @@ div.addFavForm {
     align-items: stretch;
     width: 15em;
 }
+
 .favCardFull_DescriptionForm input,
 .favCardFull_DescriptionForm textarea {
     width: 100%;
 }
+
 .favCardFull_DescriptionForm textarea {
     height: 6em;
 }
+
 .favCardFull_DescriptionForm .optionsBtnSet {
     width: 100%;
     justify-content: center;
@@ -453,7 +457,7 @@ div.addFavForm {
     width: 100%;
 }
 
-.favCardFull_Folder .folder{
+.favCardFull_Folder .folder {
     outline: 1px solid;
     padding: 0.3em;
 }
@@ -503,7 +507,7 @@ div.addFavForm {
     text-align: center;
 }
 
-.favCardFull_Description .sectionHeader{
+.favCardFull_Description .sectionHeader {
     display: block;
     margin-bottom: 0.5em;
 }
@@ -512,6 +516,7 @@ div.addFavForm {
     display: flex;
     flex-direction: column;
 }
+
 .favCardFull_DateAdded span:last-child {
     opacity: 0.75;
 }
@@ -521,9 +526,11 @@ div.addFavForm {
         color: #ffff00;
         transform: rotate(0deg);
     }
+
     50% {
         color: var(--main-text-color);
     }
+
     to {
         color: #ffff00;
         transform: rotate(359deg);
@@ -534,9 +541,11 @@ div.addFavForm {
     from {
         color: #ffff00;
     }
+
     50% {
         color: var(--main-text-color);
     }
+
     to {
         color: #ffff00;
     }
@@ -590,6 +599,7 @@ div.addFavForm {
     align-items: center;
     /* overflow: hidden; */
 }
+
 .favFolder:hover {
     cursor: pointer;
 }
@@ -612,6 +622,7 @@ div.addFavForm {
 .favFolder .optionsBtnSet {
     display: none;
 }
+
 .favFolder:hover .optionsBtnSet {
     display: flex;
 }
@@ -625,11 +636,13 @@ div.addFavForm {
     justify-content: center;
     background-color: var(--main-bg-color-trans);
 }
+
 .favFolder_renameForm input {
     height: 3em;
     border-left: 0;
     border-right: 0;
 }
+
 .favFolder_renameForm .btn {
     outline: 0;
     border-bottom: 1px solid;
