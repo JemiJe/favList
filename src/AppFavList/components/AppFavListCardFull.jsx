@@ -82,6 +82,10 @@ class AppFavListCardFull extends Component {
         document.dispatchEvent(event);
     }
 
+    openInNewTab = (url) => {
+        window.open(url, '_blank');
+    }
+
     render() {
 
         let dataObj = this.state.dataObj;
@@ -111,6 +115,7 @@ class AppFavListCardFull extends Component {
                                 src={`${dataObj.imgFav.webImgUrl}`}
                                 alt="favListPhoto"
                                 width={176}
+                                onClickCapture={ () => this.openInNewTab(dataObj.imgFav.webImgUrl) }
                             />
                         </div>
 

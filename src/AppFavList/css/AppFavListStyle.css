@@ -320,7 +320,7 @@ div.addFavForm {
 }
 
 .favCard .favCardImageWrapper img {
-    height: 8em;
+    height: 100%;
     object-fit: cover;
     object-position: top;
 }
@@ -406,13 +406,15 @@ div.addFavForm {
 }
 
 .favCardFull_imgHeader {
-    height: 10em;
+    height: 16em;
     width: 20em;
 }
 
 .favCardFull_imgHeader img {
-    object-fit: cover;
-    object-position: top;
+    object-fit: contain;
+    object-position: center;
+    width: 100%;
+    height: 100%;
 }
 
 .favCardFull_Name .optionsBtnSet,

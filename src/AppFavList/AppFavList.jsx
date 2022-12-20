@@ -98,7 +98,7 @@ class AppFavList extends Component {
                     this._storageEdited();
                 });
 
-            this.update();
+            this.update({type: null});
         }
         else if (mode === 'send') {
             await syncInit.sendData();
@@ -305,7 +305,7 @@ class AppFavList extends Component {
 
     update = e => {
         this.setState({
-            isSearching: e.type === 'AppFavListDisplay.searching' ? e.dataObj : false
+            isSearching: (e.type && e.type === 'AppFavListDisplay.searching') ? e.dataObj : false
         });
     }
 
