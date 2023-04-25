@@ -1,4 +1,4 @@
-Simple react app for making favourite items list (library)
+Simple react app for making favorite items list (library)
 
 Features:
 - adding item (name, tag, folder, image...)
@@ -10,6 +10,7 @@ Features:
 - syncing and updating item in server (need further configuration) among all devices
 - exporting items to json
 
+demo is available https://cool-starburst-a5c397.netlify.app/
 demo video https://www.youtube.com/playlist?list=PLAYtmBXs-WeZho1qmv6bOozRYS5mAWM8h
 
 for first connection to server, set `"isAlredyExists":false,`<br>
