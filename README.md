@@ -11,7 +11,7 @@ Features:
 - exporting items to json
 
 demo is available https://cool-starburst-a5c397.netlify.app/
-demo video https://www.youtube.com/playlist?list=PLAYtmBXs-WeZho1qmv6bOozRYS5mAWM8h
+<br>demo video https://www.youtube.com/playlist?list=PLAYtmBXs-WeZho1qmv6bOozRYS5mAWM8h
 
 for first connection to server, set `"isAlredyExists":false,`<br>
 
