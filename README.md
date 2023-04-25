@@ -1,3 +1,17 @@
+Simple react app for making favourite items list (library)
+
+Features:
+- adding item (name, tag, folder, image...)
+- tagging items (with autocompleting) and rating
+- grouping items with folders
+- editing items and adding images with autosearch
+- quick search and sorting items (by date adding, rating, etc.)
+- responsive design that fits wide and mobile screens
+- syncing and updating item in server (need further configuration) among all devices
+- exporting items to json
+
+demo video https://www.youtube.com/playlist?list=PLAYtmBXs-WeZho1qmv6bOozRYS5mAWM8h
+
 for first connection to server, set `"isAlredyExists":false,`<br>
 
 example of backup server url:<br>
